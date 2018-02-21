@@ -2,6 +2,8 @@
 ### Custom ###
 
 bowvenv/*
+*.epgz
+*.asta
 
 # Created by https://www.gitignore.io/api/django,python
 
