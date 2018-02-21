@@ -1,0 +1,20 @@
+//Install venv "djangoenv"
+python -m venv bowvenv
+
+//To activate
+bowvenv\Scripts\activate
+
+//In venv, need pip
+pip install django~=2.0.0
+
+//Création du site
+django-admin startproject bowsite .
+
+//Create DB
+python manage.py migrate
+
+//Création de l'application
+python manage.py startapp bow
+
+//Lancement du serveur à l'adresse : http://127.0.0.1:8000/
+python manage.py runserver
