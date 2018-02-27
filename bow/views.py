@@ -2,16 +2,20 @@ from django.contrib.auth import login, logout, authenticate
 from django.shortcuts import render, redirect
 from .forms import RegisterForm, SigninForm
 
+#Maybe TODO Or use decorator https://stackoverflow.com/questions/7367509/login-in-django-testing-framework
 #Fist page
 def index(request):
     #Retouner le template (page) correspondant
-    return render(request, 'bow/pages/index.html', {'request': request})
+    if(request.user.is_authenticated):
+        return fight(request)
+    else:
+        return render(request, 'bow/pages/index.html', {'request': request})
 
 #Home page
 def home(request):
     return render(request, 'bow/pages/home.html')
 
-#=======
+#=======    Authentification    =======#
 
 #Login page
 def signin(request):
@@ -49,8 +53,11 @@ def signout(request):
     logout(request)
     return render(request, 'bow/pages/index.html')
 
-#=======
+#======= Fight =======#
 
 #Select opponent page
+def fight(request):
+    return render(request, 'bow/pages/fight.html')
+
 def opponent(request):
-    return render(request, 'bow/pages/opponent.html')
+    return render(request, 'bow/pages/home.html')

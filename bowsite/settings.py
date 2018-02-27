@@ -89,10 +89,10 @@ WSGI_APPLICATION = 'bowsite.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': '',
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',
+        'NAME': 'bow',
+        'USER': 'root',
+        'PASSWORD': '1234',
+        'HOST': 'localhost',
         'PORT': '',
     }
 }
