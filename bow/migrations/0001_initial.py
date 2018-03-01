@@ -3,6 +3,60 @@
 from django.db import migrations, models
 import django.db.models.deletion
 
+#------------ Data Migration ------------#
+# It's launcher after table migration with 'migrations.RunPython(forwards_func, reverse_func)'
+
+def forwards_func(apps, schema_editor):
+    # We get the model from the versioned app registry;
+    # if we directly import it, it'll be the wrong version
+
+    #Create the 2
+    Camp = apps.get_model("bow", "Camp")
+    db_alias = schema_editor.connection.alias
+    Camp.objects.using(db_alias).bulk_create([
+        Camp(name='Black', description='Ce sont les chevaliers noirs.'),
+        Camp(name='White', description='Ce sont les chevaliers blancs.'),
+    ])
+
+    Level = apps.get_model("bow", "Level")
+    db_alias = schema_editor.connection.alias   #useless and repetitive line?
+    Level.objects.using(db_alias).bulk_create([
+        Level(name="Apprenti", required_experience=0),
+        Level(name="Soldat", required_experience=100),
+        Level(name="Champion", required_experience=300),
+        Level(name="Maître", required_experience=700),
+    ])
+
+    Characters = apps.get_model("bow", "Characters")
+    db_alias = schema_editor.connection.alias
+    Characters.objects.using(db_alias).bulk_create([
+        #Just basic opponents in case that the player is too weak and can't fight anyone
+        Characters(name="L'apprenti chevalier noir", strength=5, defense=5, speed=5, agility=5, victories=0, fight_count=0, experience=0, gold=0, camp_id=1, level_id=1),
+        Characters(name="L'apprenti chevalier blanc", strength=5, defense=5, speed=5, agility=5, victories=0, fight_count=0, experience=0, gold=0, camp_id=2, level_id=1),
+    ])
+
+def reverse_func(apps, schema_editor):
+    # forwards_func() creates two Country instances,
+    # so reverse_func() should delete them.
+
+    Camp = apps.get_model("bow", "Camp")
+    db_alias = schema_editor.connection.alias
+    Camp.objects.using(db_alias).filter(name='Black').delete()
+    Camp.objects.using(db_alias).filter(name='White').delete()
+
+    Level = apps.get_model("bow", "Level")
+    db_alias = schema_editor.connection.alias
+    Level.objects.using(db_alias).filter(name='Apprenti').delete()
+    Level.objects.using(db_alias).filter(name='Soldat').delete()
+    Level.objects.using(db_alias).filter(name='Champion').delete()
+    Level.objects.using(db_alias).filter(name='Maître').delete()
+
+    Characters = apps.get_model("bow", "Characters")
+    db_alias = schema_editor.connection.alias
+    Characters.objects.using(db_alias).filter(name="L'apprenti chevalier blanc").delete()
+    Characters.objects.using(db_alias).filter(name="L'apprenti chevalier noir").delete()
+
+#------------ Table migration ------------#
 
 class Migration(migrations.Migration):
 
@@ -161,16 +215,16 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Characters',
             fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),  # Should be the same as user table id (1:1 relation)
                 ('name', models.CharField(max_length=50)),
-                ('strenght', models.IntegerField()),
+                ('strength', models.IntegerField()),
                 ('defense', models.IntegerField()),
                 ('speed', models.IntegerField()),
                 ('agility', models.IntegerField()),
                 ('victories', models.IntegerField()),
                 ('fight_count', models.IntegerField()),
                 ('experience', models.IntegerField()),
-                ('point', models.IntegerField()),
+                ('gold', models.IntegerField()),
                 ('camp', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='bow.Camp')),
             ],
             options={
@@ -181,7 +235,7 @@ class Migration(migrations.Migration):
             name='Level',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=50)),
+                ('name', models.CharField(max_length=50)),   # Should be integer but let's do it with names
                 ('required_experience', models.IntegerField()),
             ],
             options={
@@ -205,4 +259,5 @@ class Migration(migrations.Migration):
             name='level',
             field=models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='bow.Level'),
         ),
+        migrations.RunPython(forwards_func, reverse_func),
     ]

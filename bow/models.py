@@ -85,18 +85,19 @@ class Camp(models.Model):
 
 class Characters(models.Model):
     name = models.CharField(max_length=50)
-    strenght = models.IntegerField()
+    strength = models.IntegerField()
     defense = models.IntegerField()
     speed = models.IntegerField()
     agility = models.IntegerField()
     victories = models.IntegerField()
     fight_count = models.IntegerField()
     experience = models.IntegerField()
-    point = models.IntegerField()
+    gold = models.IntegerField()
     camp = models.ForeignKey(Camp, models.DO_NOTHING)
     level = models.ForeignKey('Level', models.DO_NOTHING)
 
     class Meta:
+        #ordering = ['level']
         #managed = False
         db_table = 'characters'
 

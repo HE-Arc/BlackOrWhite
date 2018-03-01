@@ -1,6 +1,7 @@
 from django.contrib.auth import login, logout, authenticate
 from django.shortcuts import render, redirect
 from .forms import RegisterForm, SigninForm
+from .models import Characters
 
 #Maybe TODO Or use decorator https://stackoverflow.com/questions/7367509/login-in-django-testing-framework
 #Fist page
@@ -41,9 +42,12 @@ def signup(request):
             password = form.cleaned_data.get("password1")
             user.set_password(password)
             user.save()
+
+            #TODO create associated player's character 1:1
+
             new_user = authenticate(username=user.username, password=password)
-            login(request, new_user)#Login après signup
-            return redirect("home")#redirect
+            login(request, new_user)    #Login après signup
+            return redirect("home")     #redirect
     else:
         form = RegisterForm()
     return render(request, "bow/pages/signup.html", {"form": form})
@@ -55,9 +59,14 @@ def signout(request):
 
 #======= Fight =======#
 
-#Select opponent page
+#Select opponent page <=> relative to name of the menu "Fight"/"Combat"
 def fight(request):
-    return render(request, 'bow/pages/fight.html')
+    # https://stackoverflow.com/questions/1981524/django-filtering-on-foreign-key-properties
+    #TODO filter from user opponents => white player <=> black opponent, vice versa
+    opponents_query_set = Characters.objects.filter(camp__name__contains="Black")
+    print(opponents_query_set)
+    return render(request, 'bow/pages/fight.html', {'opponents': opponents_query_set})
 
+#Details about opponent
 def opponent(request):
-    return render(request, 'bow/pages/home.html')
+    return render(request, 'bow/pages/home.html')   #TODO template and replace
