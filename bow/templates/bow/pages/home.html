@@ -15,20 +15,22 @@
   <div class="row">
     <div class="col-md-5">
       <div class="youplay-match-left" data-toggle="tooltip" data-placement="top" title="Tooltip on jdshdhsjdhjshdjhsdjshdjsh djshdjshdjh sjdhsjdhjshdjshdjshd jshdjshdjhsdj jdhjshdjshdjshdj shdjsdhjshd jhsjdhjshdj shdjsdhleft">
-        <a href="{% url 'opponent' %}">
-          <div class="youplay-match">
-            <div class="youplay-match-data text-right">
-              <h3>Black</h3>
-            </div>
-            <!--
-                              -->
-            <div class="angled-img">
-              <div class="img">
-                <img src="{% static 'assets/images/clan-ehome.jpg' %}" alt="Black">
+        <form id="black" action="{% url 'home' %}" method="post">
+          {% csrf_token %}
+          <input type="hidden" name="black">
+          <a href="#" onclick="document.forms['black'].submit();">
+            <div class="youplay-match">
+              <div class="youplay-match-data text-right">
+                <h3>Black</h3>
+              </div>
+              <div class="angled-img">
+                <div class="img">
+                  <img src="{% static 'assets/images/clan-ehome.jpg' %}" alt="Black">
+                </div>
               </div>
             </div>
-          </div>
-        </a>
+          </a>
+        </form>
       </div>
     </div>
     <div class="col-md-2 text-center">
@@ -38,20 +40,22 @@
     </div>
     <div class="col-md-5">
       <div class="youplay-match-right" data-toggle="tooltip" data-placement="bottom" title="Tooltip on jdshdhsjdhjshdjhsdjshdjsh djshdjshdjh sjdhsjdhjshdjshdjshd jshdjshdjhsdj jdhjshdjshdjshdj shdjsdhjshd jhsjdhjshdj shdjsdhleft">
-        <a href="{% url 'fight' %}">
-          <div class="youplay-match">
-            <div class="angled-img">
-              <div class="img">
-                <img src="{% static 'assets/images/clan-team-secret.jpg' %}" alt="White">
+        <form id="white" action="{% url 'home' %}" method="post">
+          {% csrf_token %}
+          <input type="hidden" name="white">
+          <a href="#" onclick="document.forms['white'].submit();">
+            <div class="youplay-match">
+              <div class="angled-img">
+                <div class="img">
+                  <img src="{% static 'assets/images/clan-team-secret.jpg' %}" alt="White">
+                </div>
+              </div>
+              <div class="youplay-match-data">
+                <h3>White</h3>
               </div>
             </div>
-            <!--
-                              -->
-            <div class="youplay-match-data">
-              <h3>White</h3>
-            </div>
-          </div>
-        </a>
+          </a>
+        </form>
       </div>
     </div>
   </div>
