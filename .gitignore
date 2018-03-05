@@ -1,6 +1,8 @@
 ﻿
 ### Custom ###
 
+*.idea
+
 bowvenv/*
 *.epgz
 *.asta

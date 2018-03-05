@@ -6,6 +6,7 @@
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class AuthGroup(models.Model):
@@ -155,11 +156,13 @@ class Level(models.Model):
         db_table = 'level'
 
 
-class User(models.Model):
-    username = models.CharField(max_length=50)
-    password = models.CharField(max_length=50)
-    email = models.CharField(max_length=50)
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    character = models.OneToOneField(Characters, on_delete=models.CASCADE)
 
     class Meta:
         #managed = False
-        db_table = 'user'
+        db_table = 'user_profile'
+
+# Automatique user.profile https://www.turnkeylinux.org/blog/django-profile
+User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])
