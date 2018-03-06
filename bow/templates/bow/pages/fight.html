@@ -40,8 +40,43 @@
 
       <div class="isotope-list">
 
+        {% for opponent in opponents %}
+
+          <!-- Single Opponent Block -->
+          <a href="{% url 'opponent' %}" class="item angled-bg" data-filters="popular">
+            <div class="row">
+              <div class="col-lg-2 col-md-3 col-xs-4">
+                <div class="angled-img">
+                  <div class="img">
+                    <img src="{% static 'assets/images/footerbg.jpg' %}" alt="">
+                    <div class="badge show bg-default">L1</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-10 col-md-9 col-xs-8">
+                <div class="row">
+                  <div class="col-xs-6 col-md-9">
+                    <h4>{{ opponent.name }}</h4>
+                    <div class="rating">
+                      <span>Force: {{ opponent.strength }}</span>&nbsp;&nbsp;&nbsp;
+                      <span>Vitesse: {{ opponent.speed }}</span>&nbsp;&nbsp;&nbsp;
+                      <span>Défense: {{ opponent.defense }}</span>&nbsp;&nbsp;&nbsp;
+                    </div>
+                  </div>
+                  <div class="col-xs-6 col-md-3 align-right">
+                    <div class="price">
+                      20%
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+
+        {% endfor %}
+
         <!-- Single Product Block -->
-        <a href="#!" class="item angled-bg" data-filters="popular">
+        <a href="{% url 'opponent' %}" class="item angled-bg" data-filters="popular">
           <div class="row">
             <div class="col-lg-2 col-md-3 col-xs-4">
               <div class="angled-img">

@@ -1,7 +1,11 @@
 ﻿
 ### Custom ###
 
+*.idea
+
 bowvenv/*
+*.epgz
+*.asta
 
 # Created by https://www.gitignore.io/api/django,python
 

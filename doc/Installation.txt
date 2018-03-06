@@ -1,4 +1,4 @@
-//Install venv "djangoenv"
+//Install venv "bowvenv"
 python -m venv bowvenv
 
 //To activate
