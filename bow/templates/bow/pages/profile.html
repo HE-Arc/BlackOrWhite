@@ -1,0 +1,368 @@
+{% extends 'layouts/base.html' %}
+
+{% load static %}
+
+{% block title %} BlackOrWhite | Profile du joueur {% endblock %}
+
+{% block content %}
+<!-- Main Content -->
+<section class="content-wrap">
+  <!-- Banner -->
+    <div class="youplay-banner banner-top youplay-banner-parallax small">
+      <div class="image" style="background-image: url('{% static 'assets/images/profile.jpg' %}')">
+      </div>
+
+      <!--<div class="youplay-user-navigation">
+        <div class="container">
+          <ul>
+            <li><a href="{% url 'character' %}">Personnage</a>
+            </li>
+            <li><a href="{% url 'attributes' %}">Attributs</a>
+            </li>
+            <li><a href="{% url 'inventory' %}">Inventaire</span></a>
+            </li>
+          </ul>
+        </div>
+      </div>-->
+
+      <div class="info">
+        <div>
+          <div class="container youplay-user">
+            <a href="assets/images/user-photo.jpg" class="angled-img image-popup">
+              <div class="img">
+                <img src="{% static 'assets/images/clan-ehome.jpg' %}" alt="">
+              </div>
+              <i class="fa fa-search-plus icon"></i>
+            </a>
+            <!--
+                -->
+            <div class="user-data">
+              <h2>{{ user.username }}</h2>
+              <div class="location"><i class="fa fa-map-marker"></i> Los Angeles</div>
+              <div class="activity">
+                <div>
+                  <div class="num">69</div>
+                  <div class="title">Combats</div>
+                </div>
+                <div>
+                  <div class="num">12</div>
+                  <div class="title">Victoires</div>
+                </div>
+                <div>
+                  <div class="num">689</div>
+                  <div class="title">Défaites</div>
+                </div>
+                <div>
+                  <div class="num">689</div>
+                  <div class="title">Gold</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!--<div class="container mt-20">
+            <a href="#!" class="btn btn-sm btn-default ml-0">Add Friend</a>
+            <a href="#!" class="btn btn-sm btn-default">Private Message</a>
+          </div>-->
+        </div>
+      </div>
+    </div>
+    <!-- /Banner -->
+    <div class="container youplay-content">
+
+      <div class="row">
+
+        <div class="col-md-9">
+          <div role="tabpanel">
+            <ul class="nav nav-tabs" role="tablist">
+              <li role="presentation" class="active">
+                <a href="#tab-all" aria-controls="tab-all" role="tab" data-toggle="tab" aria-expanded="true">All</a>
+              </li>
+              <li role="presentation">
+                <a href="#tab-cs" aria-controls="tab-cs" role="tab" data-toggle="tab" aria-expanded="true">CS</a>
+              </li>
+              <li role="presentation">
+                <a href="#tab-dota2" aria-controls="tab-dota2" role="tab" data-toggle="tab" aria-expanded="true">DOTA2</a>
+              </li>
+              <li role="presentation">
+                <a href="#tab-lol" aria-controls="tab-lol" role="tab" data-toggle="tab" aria-expanded="true">LoL</a>
+              </li>
+            </ul>
+            <div class="tab-content">
+
+              <!-- All Matches -->
+              <div role="tabpanel" class="tab-pane active" id="tab-all">
+                <div class="youplay-matches-list">
+                  <a class="youplay-single-match" href="#">
+
+                    <div class="pull-left">
+                      <div class="angled-img">
+                        <div class="img">
+                          <img src="assets/images/clan-navi.jpg" alt="NAVI">
+                        </div>
+                      </div>
+                      <h5 class="text-center">NAVI</h5>
+                    </div>
+
+                    <div class="pull-left ml-30">
+                      <div class="angled-img">
+                        <div class="img">
+                          <img src="assets/images/clan-ehome.jpg" alt="EHOME">
+                        </div>
+                      </div>
+                      <h5 class="text-center">EHOME</h5>
+                    </div>
+
+                    <div class="pull-left ml-30">
+                      <h3 class="youplay-match-title">Game Show GEC</h3>
+                      <div class="date">27th March 2016, 5:30 pm</div>
+                    </div>
+
+                    <div class="label youplay-match-count">Upcoming</div>
+
+                    <div class="clearfix"></div>
+                  </a>
+
+                  <a class="youplay-single-match" href="match.html">
+
+                    <div class="pull-left">
+                      <div class="angled-img">
+                        <div class="img">
+                          <img src="assets/images/clan-youplay.jpg" alt="Youplay">
+                        </div>
+                      </div>
+                      <h5 class="text-center">Youplay</h5>
+                    </div>
+
+                    <div class="pull-left ml-30">
+                      <div class="angled-img">
+                        <div class="img">
+                          <img src="assets/images/clan-team-secret.jpg" alt="Team Secret">
+                        </div>
+                      </div>
+                      <h5 class="text-center">Team Secret</h5>
+                    </div>
+
+                    <div class="pull-left ml-30">
+                      <h3 class="youplay-match-title">The International 2015</h3>
+                      <div class="date">17th February 2016, 6:00 am</div>
+                    </div>
+
+                    <div class="label youplay-match-count">10 : 7</div>
+
+                    <div class="clearfix"></div>
+                  </a>
+
+                  <a class="youplay-single-match" href="match-2.html">
+
+                    <div class="pull-left">
+                      <div class="angled-img">
+                        <div class="img">
+                          <img src="assets/images/clan-navi.jpg" alt="NAVI">
+                        </div>
+                      </div>
+                      <h5 class="text-center">NAVI</h5>
+                    </div>
+
+                    <div class="pull-left ml-30">
+                      <div class="angled-img">
+                        <div class="img">
+                          <img src="assets/images/clan-fnatic.jpg" alt="fnatic">
+                        </div>
+                      </div>
+                      <h5 class="text-center">fnatic</h5>
+                    </div>
+
+                    <div class="pull-left ml-30">
+                      <h3 class="youplay-match-title">Red Dot Invitational</h3>
+                      <div class="date">10th February 2016, 10:30 am</div>
+                    </div>
+
+                    <div class="label youplay-match-count">22 : 28</div>
+
+                    <div class="clearfix"></div>
+                  </a>
+
+                  <a class="youplay-single-match" href="#">
+
+                    <div class="pull-left">
+                      <div class="angled-img">
+                        <div class="img">
+                          <img src="assets/images/clan-skt-t1.jpg" alt="SKT T1">
+                        </div>
+                      </div>
+                      <h5 class="text-center">SKT T1</h5>
+                    </div>
+
+                    <div class="pull-left ml-30">
+                      <div class="angled-img">
+                        <div class="img">
+                          <img src="assets/images/clan-virtus-pro.jpg" alt="Virtus PRO">
+                        </div>
+                      </div>
+                      <h5 class="text-center">Virtus PRO</h5>
+                    </div>
+
+                    <div class="pull-left ml-30">
+                      <h3 class="youplay-match-title">San Jose</h3>
+                      <div class="date">1st December 2015, 4:30 pm</div>
+                    </div>
+
+                    <div class="label youplay-match-count">13 : 13</div>
+
+                    <div class="clearfix"></div>
+                  </a>
+                </div>
+              </div>
+              <!-- /All Matches -->
+
+              <!-- CS Matches -->
+              <div role="tabpanel" class="tab-pane" id="tab-cs">
+                <div class="youplay-matches-list">
+                  <a class="youplay-single-match" href="match-2.html">
+
+                    <div class="pull-left">
+                      <div class="angled-img">
+                        <div class="img">
+                          <img src="assets/images/clan-navi.jpg" alt="NAVI">
+                        </div>
+                      </div>
+                      <h5 class="text-center">NAVI</h5>
+                    </div>
+
+                    <div class="pull-left ml-30">
+                      <div class="angled-img">
+                        <div class="img">
+                          <img src="assets/images/clan-fnatic.jpg" alt="fnatic">
+                        </div>
+                      </div>
+                      <h5 class="text-center">fnatic</h5>
+                    </div>
+
+                    <div class="pull-left ml-30">
+                      <h3 class="youplay-match-title">Red Dot Invitational</h3>
+                      <div class="date">10th February 2016, 10:30 am</div>
+                    </div>
+
+                    <div class="label youplay-match-count">22 : 28</div>
+
+                    <div class="clearfix"></div>
+                  </a>
+                </div>
+              </div>
+              <!-- /CS Matches -->
+
+              <!-- DOTA2 Matches -->
+              <div role="tabpanel" class="tab-pane" id="tab-dota2">
+                <div class="youplay-matches-list">
+                  <a class="youplay-single-match" href="#">
+
+                    <div class="pull-left">
+                      <div class="angled-img">
+                        <div class="img">
+                          <img src="assets/images/clan-navi.jpg" alt="NAVI">
+                        </div>
+                      </div>
+                      <h5 class="text-center">NAVI</h5>
+                    </div>
+
+                    <div class="pull-left ml-30">
+                      <div class="angled-img">
+                        <div class="img">
+                          <img src="assets/images/clan-ehome.jpg" alt="EHOME">
+                        </div>
+                      </div>
+                      <h5 class="text-center">EHOME</h5>
+                    </div>
+
+                    <div class="pull-left ml-30">
+                      <h3 class="youplay-match-title">Game Show GEC</h3>
+                      <div class="date">27th March 2016, 5:30 pm</div>
+                    </div>
+
+                    <div class="label youplay-match-count">Upcoming</div>
+
+                    <div class="clearfix"></div>
+                  </a>
+
+                  <a class="youplay-single-match" href="match.html">
+
+                    <div class="pull-left">
+                      <div class="angled-img">
+                        <div class="img">
+                          <img src="assets/images/clan-youplay.jpg" alt="Youplay">
+                        </div>
+                      </div>
+                      <h5 class="text-center">Youplay</h5>
+                    </div>
+
+                    <div class="pull-left ml-30">
+                      <div class="angled-img">
+                        <div class="img">
+                          <img src="assets/images/clan-team-secret.jpg" alt="Team Secret">
+                        </div>
+                      </div>
+                      <h5 class="text-center">Team Secret</h5>
+                    </div>
+
+                    <div class="pull-left ml-30">
+                      <h3 class="youplay-match-title">The International 2015</h3>
+                      <div class="date">17th February 2016, 6:00 am</div>
+                    </div>
+
+                    <div class="label youplay-match-count">10 : 7</div>
+
+                    <div class="clearfix"></div>
+                  </a>
+                </div>
+              </div>
+              <!-- /DOTA2 Matches -->
+
+              <!-- LoL Matches -->
+              <div role="tabpanel" class="tab-pane" id="tab-lol">
+                <div class="youplay-matches-list">
+                  <a class="youplay-single-match" href="#">
+
+                    <div class="pull-left">
+                      <div class="angled-img">
+                        <div class="img">
+                          <img src="assets/images/clan-skt-t1.jpg" alt="SKT T1">
+                        </div>
+                      </div>
+                      <h5 class="text-center">SKT T1</h5>
+                    </div>
+
+                    <div class="pull-left ml-30">
+                      <div class="angled-img">
+                        <div class="img">
+                          <img src="assets/images/clan-virtus-pro.jpg" alt="Virtus PRO">
+                        </div>
+                      </div>
+                      <h5 class="text-center">Virtus PRO</h5>
+                    </div>
+
+                    <div class="pull-left ml-30">
+                      <h3 class="youplay-match-title">San Jose</h3>
+                      <div class="date">1st December 2015, 4:30 pm</div>
+                    </div>
+
+                    <div class="label youplay-match-count">13 : 13</div>
+
+                    <div class="clearfix"></div>
+                  </a>
+                </div>
+              </div>
+              <!-- /LoL Matches -->
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  {% include 'partials/_footer.html' %}
+</section>
+<!-- /Main Content -->
+
+{% endblock %}

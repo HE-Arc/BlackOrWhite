@@ -54,3 +54,16 @@ def signout(request):
 #Select opponent page
 def opponent(request):
     return render(request, 'bow/pages/opponent.html')
+
+#====Afficher les statistiques d'un joueur
+def profile(request):
+    return render(request, 'bow/pages/profile.html')
+
+def character(request):
+    return render(request, 'bow/pages/character.html')
+
+def attributes(request):
+    return render(request, 'bow/pages/attributes.html')
+
+def inventory(request):
+    return render(request, 'bow/pages/inventory.html')
