@@ -7,7 +7,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'y&f23qlvagzs-k6^*#5r$-pnsktfzv^sh!ir^)p+!ez-^xs-$c'
+SECRET_KEY = os.environ.get('BOW_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -62,27 +62,16 @@ WSGI_APPLICATION = 'bowsite.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
-'''DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': os.environ.get('DB_NAME'),
-        'USER': os.environ.get('DB_USER'),
-        'PASSWORD': os.environ.get('DB_PASSWORD'),
-        'HOST': os.environ.get('DB_HOST'),
-        'PORT': os.environ.get('DB_PORT'),
-    }
-}'''
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': '',
-        'USER': '',
-        'HOST': '',
+        'ENGINE': os.environ.get('BOW_DB_ENGINE'),
+        'NAME': os.environ.get('BOW_DB_NAME'),
+        'USER': os.environ.get('BOW_DB_USER'),
+        'PASSWORD': '',
+        'HOST': os.environ.get('BOW_DB_HOST'),
         'PORT': '',
     }
 }
-
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
 
