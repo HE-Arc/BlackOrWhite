@@ -88,12 +88,6 @@
   <!-- Isotope -->
   <script src="{% static 'js/isotope.pkgd.min.js' %}"></script>
 
-  <!-- Countdown -->
-  <!--<script type="text/javascript" src="../assets/bower_components/jquery.countdown/dist/jquery.countdown.min.js"></script>-->
-
-  <!-- Moment.js -->
-  <!--<script type="text/javascript" src="../assets/bower_components/moment/min/moment.min.js"></script>
-  <script type="text/javascript" src="../assets/bower_components/moment-timezone/builds/moment-timezone-with-data.min.js"></script>-->
   <!-- Youplay -->
   <script src="{% static 'js/youplay.min.js' %}"></script>
   {% block javascript %}{% endblock %}
@@ -109,30 +103,9 @@
 
             // enable fade effect between pages
             fadeBetweenPages: true,
-
-            // twitter and instagram php paths
-            php: {
-                //twitter: './php/twitter/tweet.php',
-                //instagram: './php/instagram/instagram.php'
-            }
         });
     }
   </script>
-
-
-  <script>
-    $(".countdown").each(function() {
-        var tz = $(this).attr('data-timezone');
-        var end = $(this).attr('data-end');
-            end = moment.tz(end, tz).toDate();
-        $(this).countdown(end, function(event) {
-          $(this).text(
-            event.strftime('%D days %H:%M:%S')
-          );
-        });
-    })
-  </script>
-
 </body>
 
 </html>
