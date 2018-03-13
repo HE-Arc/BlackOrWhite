@@ -16,7 +16,7 @@
       <div class="info">
         <div>
           <div class="container youplay-user">
-            <a href="assets/images/user-photo.jpg" class="angled-img image-popup">
+            <a href="{% static 'assets/images/' %}{{ profile.character.camp.camp_icon }}" class="angled-img image-popup">
               <div class="img">
                 <img src="{% static 'assets/images/' %}{{ profile.character.camp.camp_icon }}" alt="">
                 {% if profile.character.level.id == 1 %}

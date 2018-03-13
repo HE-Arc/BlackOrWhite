@@ -14,7 +14,6 @@
       <div>
         <div class="container align-center">
           <h2 class="h1"><strong>Choisissez votre adversaire</strong></h2>
-          <!--<a href="{% url 'login' %}" class="btn active btn-lg btn-danger">Connectez-vous et Jouez!</a>-->
         </div>
       </div>
     </div>
@@ -39,7 +38,7 @@
         {% for opponent in opponents %}
 
           <!-- Single Opponent Block -->
-          <a href="{% url 'opponents' %}" class="item angled-bg" data-filters="popular">
+          <a href="{% url 'fight' %}" class="item angled-bg" data-filters="popular">
             <div class="row">
               <div class="col-lg-2 col-md-3 col-xs-4">
                 <div class="angled-img">

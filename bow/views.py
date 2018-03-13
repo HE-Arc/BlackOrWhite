@@ -145,3 +145,7 @@ def buy(request, id):
             else:
                 return HttpResponse("interdit")
     return render(request)
+
+@login_required
+def fight(request):
+    return render(request, 'bow/pages/fight.html')
