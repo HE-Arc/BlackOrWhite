@@ -78,30 +78,83 @@ class AuthUserUserPermissions(models.Model):
 class Camp(models.Model):
     name = models.CharField(max_length=50)
     description = models.TextField()
+    camp_icon = models.CharField(max_length=50) #icon symbolique du camp
 
     class Meta:
         #managed = False
         db_table = 'camp'
 
+class Level(models.Model):
+    name = models.CharField(max_length=50)
+    required_experience = models.IntegerField()
+
+    class Meta:
+        #managed = False
+        db_table = 'level'
+
+class InventoryCategory(models.Model):
+    name = models.CharField(max_length=50)
+    description = models.TextField()
+
+    class Meta:
+        #managed = False
+        db_table = 'inventory_category'
+
+class Item(models.Model):
+    name = models.CharField(max_length=50)
+    #required_level = models.CharField(max_length=50)
+    vital_energy = models.IntegerField(default= 5)
+    strength = models.IntegerField(default= 5)
+    defense = models.IntegerField(default=5)
+    damages = models.IntegerField(default=25)
+    item_icon = models.CharField(max_length=50)
+    description = models.TextField()
+    cost_chf = models.DecimalField(max_digits=20, decimal_places=2, default=0.00)
+    cost_gold = models.IntegerField(default=0)
+    category = models.ForeignKey(InventoryCategory, models.CASCADE, default=-1)
+    level = models.ForeignKey(Level, models.CASCADE, default=-1)
+
+    class Meta:
+        #managed = False
+        db_table = 'item'
 
 class Characters(models.Model):
     name = models.CharField(max_length=50)
-    strength = models.IntegerField()
-    defense = models.IntegerField()
-    speed = models.IntegerField()
-    agility = models.IntegerField()
-    victories = models.IntegerField()
-    fight_count = models.IntegerField()
-    experience = models.IntegerField()
-    gold = models.IntegerField()
-    camp = models.ForeignKey(Camp, models.DO_NOTHING)
-    level = models.ForeignKey('Level', models.DO_NOTHING)
+    strength = models.IntegerField(default= 5)
+    defense = models.IntegerField(default=5)
+    speed = models.IntegerField(default=5)
+    agility = models.IntegerField(default=5)
+    victories = models.IntegerField(default=0)
+    fight_count = models.IntegerField(default=0)
+    defeat = models.IntegerField(default=0)
+    experience = models.IntegerField(default=0)
+    gold = models.IntegerField(default=0)
+    camp = models.ForeignKey(Camp, models.CASCADE, default=-1)
+    level = models.ForeignKey(Level, models.DO_NOTHING, default=1)
 
     class Meta:
         #ordering = ['level']
         #managed = False
         db_table = 'characters'
 
+class CharactersItem(models.Model):
+    is_active = models.IntegerField(default=0)
+    character = models.ForeignKey(InventoryCategory, models.CASCADE, default=-1)
+    item = models.ForeignKey(Item, models.CASCADE, default=-1)
+
+    class Meta:
+        #managed = False
+        db_table = 'characters_item'
+        #Unicité entre un joueur et un item
+        unique_together = (('character', 'item'),)
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    character = models.OneToOneField(Characters, on_delete=models.CASCADE)
+
+    class Meta:
+        #managed = False
+        db_table = 'user_profile'
 
 class DjangoAdminLog(models.Model):
     action_time = models.DateTimeField()
@@ -145,24 +198,6 @@ class DjangoSession(models.Model):
     class Meta:
         managed = False
         db_table = 'django_session'
-
-
-class Level(models.Model):
-    name = models.CharField(max_length=50)
-    required_experience = models.IntegerField()
-
-    class Meta:
-        #managed = False
-        db_table = 'level'
-
-
-class UserProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    character = models.OneToOneField(Characters, on_delete=models.CASCADE)
-
-    class Meta:
-        #managed = False
-        db_table = 'user_profile'
 
 # Automatique user.profile https://www.turnkeylinux.org/blog/django-profile
 User.profile = property(lambda u: UserProfile.objects.get_or_create(user=u)[0])

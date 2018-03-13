@@ -20,6 +20,18 @@
         </a>
       </div>
       <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <li class="dropdown dropdown-hover ">
+            <a href="#!" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                      Boutique <span class="caret"></span> <span class="label">Trouvez de nouvelles armes</span>
+                    </a>
+            <div class="dropdown-menu">
+              <ul role="menu">
+                <li><a href="{% url 'store' %}">Bow Store</a></li>
+              </ul>
+            </div>
+          </li>
+        </ul>
         <ul class="nav navbar-nav navbar-right"><li>
           {% if user.is_authenticated %}
             <li class="dropdown dropdown-hover">
@@ -28,34 +40,16 @@
                       </a>
               <div class="dropdown-menu">
                 <ul role="menu">
-                  <li><a href="../documentation">Documentation</a>
-                  </li>
-                  <li class="divider"></li>
-
-                  <li><a href="{% url 'profile' %}">Profil</span></a>
-                  </li>
-                  <li><a href="cart.html">My Cart <span class="badge pull-right bg-default">3</span></a>
-                  </li>
+                  <li><a href="{% url 'profile' %}">Profil</a></li>
                   <li class="divider"></li>
                   <li><a href="{% url 'logout' %}">Se déconnecter</a></li>
-                  <!--<li class="dropdown dropdown-submenu pull-left">
-                    <a href="#!" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">More..</a>
-                    <div class="dropdown-menu">
-                      <ul role="menu">
-                        <li><a href="#!">3rd level</a>
-                        </li>
-                        <li><a href="#!">3rd level</a>
-                        </li>
-                      </ul>
-                    </div>
-                  </li>-->
                 </ul>
               </div>
             </li>
           {% else %}
             <li><a href="{% url 'login' %}">Se connecter</a></li>
           {% endif %}
-          <li>
+          <!--<li>
             <a class="search-toggle" href="search.html">
               <i class="fa fa-search"></i>
             </a>
@@ -106,7 +100,7 @@
                 <a href="#" class="btn btn-default btn-sm">Checkout</a>
               </div>
             </div>
-          </li>
+          </li>-->
         </ul>
       </div>
     </div>

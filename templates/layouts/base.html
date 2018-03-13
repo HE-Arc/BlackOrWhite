@@ -28,8 +28,7 @@
   <!-- Youplay -->
 
   <!-- FontAwesome -->
-  <link rel="stylesheet" href="{% static 'css/font-awesome/css/font-awesome.min.css' %}" />
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <!-- Owl Carousel -->
   <link rel="stylesheet" type="text/css" href="{% static 'css/owl.carousel.min.css' %}" />
   <!-- Youplay -->
@@ -62,32 +61,32 @@
   <!-- /Search Block -->
 
   <!-- jQuery -->
-  <script type="text/javascript" src="{% static 'js/jquery.min.js' %}"></script>
+  <script src="{% static 'js/jquery.min.js' %}"></script>
 
   <!-- Hexagon Progress -->
-  <script type="text/javascript" src="{% static 'js/jquery.hexagonprogress.min.js' %}"></script>
+  <script src="{% static 'js/jquery.hexagonprogress.min.js' %}"></script>
 
   <!-- Bootstrap -->
-  <script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'js/bootstrap.min.js' %}"></script>
 
   <!-- Jarallax -->
-  <script type="text/javascript" src="{% static 'js/jarallax.min.js' %}"></script>
+  <script src="{% static 'js/jarallax.min.js' %}"></script>
 
   <!-- Smooth Scroll -->
-  <script type="text/javascript" src="{% static 'js/SmoothScroll.js' %}"></script>
+  <script src="{% static 'js/SmoothScroll.js' %}"></script>
 
   <!-- Owl Carousel -->
-  <script type="text/javascript" src="{% static 'js/owl.carousel.min.js' %}"></script>
+  <script src="{% static 'js/owl.carousel.min.js' %}"></script>
 
   <!-- Revolution Slider -->
-  <script type="text/javascript" src="{% static 'js/jquery.themepunch.tools.min.js' %}"></script>
-  <script type="text/javascript" src="{% static 'js/jquery.themepunch.revolution.min.js' %}"></script>
+  <script src="{% static 'js/jquery.themepunch.tools.min.js' %}"></script>
+  <script src="{% static 'js/jquery.themepunch.revolution.min.js' %}"></script>
 
   <!-- ImagesLoaded -->
-  <script type="text/javascript" src="{% static 'js/imagesloaded.pkgd.min.js' %}"></script>
+  <script src="{% static 'js/imagesloaded.pkgd.min.js' %}"></script>
 
   <!-- Isotope -->
-  <script type="text/javascript" src="{% static 'js/isotope.pkgd.min.js' %}"></script>
+  <script src="{% static 'js/isotope.pkgd.min.js' %}"></script>
 
   <!-- Countdown -->
   <!--<script type="text/javascript" src="../assets/bower_components/jquery.countdown/dist/jquery.countdown.min.js"></script>-->
@@ -96,8 +95,8 @@
   <!--<script type="text/javascript" src="../assets/bower_components/moment/min/moment.min.js"></script>
   <script type="text/javascript" src="../assets/bower_components/moment-timezone/builds/moment-timezone-with-data.min.js"></script>-->
   <!-- Youplay -->
-  <script type="text/javascript" src="{% static 'js/youplay.min.js' %}"></script>
-
+  <script src="{% static 'js/youplay.min.js' %}"></script>
+  {% block javascript %}{% endblock %}
   <!-- init youplay -->
   <script>
     if(typeof youplay !== 'undefined') {
@@ -121,7 +120,7 @@
   </script>
 
 
-  <script type="text/javascript">
+  <script>
     $(".countdown").each(function() {
         var tz = $(this).attr('data-timezone');
         var end = $(this).attr('data-end');

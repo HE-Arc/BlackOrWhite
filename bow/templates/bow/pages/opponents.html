@@ -1,0 +1,172 @@
+{% extends 'layouts/base.html' %}
+
+{% load static %}
+
+{% block title %} BlackOrWhite | Choisir un adversaire {% endblock %}
+
+{% block content %}
+<!-- Main Content -->
+<section class="content-wrap">
+  <!-- Banner -->
+  <div class="youplay-banner banner-top">
+    <div class="image" style="background-image: url('{% static 'assets/images/back.jpg' %}')"></div>
+    <div class="info">
+      <div>
+        <div class="container align-center">
+          <h2 class="h1"><strong>Choisissez votre adversaire</strong></h2>
+          <!--<a href="{% url 'login' %}" class="btn active btn-lg btn-danger">Connectez-vous et Jouez!</a>-->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+  <!-- /Banner -->
+  <div class="container youplay-store">
+
+    <!-- Games List -->
+    <div class="col-md-9 col-md-push-3 isotope">
+      <!-- Sort Categories -->
+      <ul class="pagination isotope-options">
+        <li data-filter="all" class="active"><span>Tous les adversaires</span>
+        </li>
+        <li data-filter="free"><span>Niveau équivalent ou supérieur</span>
+        </li>
+      </ul>
+      <!-- /Sort Categories -->
+
+      <div class="isotope-list">
+
+        {% for opponent in opponents %}
+
+          <!-- Single Opponent Block -->
+          <a href="{% url 'opponents' %}" class="item angled-bg" data-filters="popular">
+            <div class="row">
+              <div class="col-lg-2 col-md-3 col-xs-4">
+                <div class="angled-img">
+                  <div class="img">
+                    <img src="{% static 'assets/images/footerbg.jpg' %}" alt="">
+                    <div class="badge show bg-default">L1</div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-10 col-md-9 col-xs-8">
+                <div class="row">
+                  <div class="col-xs-6 col-md-9">
+                    <h4>{{ opponent.name }}</h4>
+                    <div class="rating">
+                      <span>Force: {{ opponent.strength }}</span>&nbsp;&nbsp;&nbsp;
+                      <span>Défense: {{ opponent.defense }}</span>&nbsp;&nbsp;&nbsp;
+                      <span>Vitesse: {{ opponent.speed }}</span>&nbsp;&nbsp;&nbsp;
+                      <span>Agilité: {{ opponent.agility }}</span>&nbsp;&nbsp;&nbsp;
+                      <span>Expérience: {{ opponent.experience }}</span>&nbsp;&nbsp;&nbsp;
+                    </div>
+                  </div>
+                  <div class="col-xs-6 col-md-3 align-right">
+                    <div class="price">
+                      20%
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+
+        {% endfor %}
+      </div>
+
+    </div>
+    <!-- /Games List -->
+
+    <!-- Left Side -->
+    <div class="col-md-3 col-md-pull-9">
+
+      <!-- Side Search -->
+      <div class="side-block">
+        <p>Chercher un adversaire:</p>
+        <form action="search.html">
+          <div class="youplay-input">
+            <input type="text" name="search" placeholder="Nom de l'adversaire">
+          </div>
+        </form>
+      </div>
+      <!-- /Side Search -->
+
+      <!-- Side Popular News -->
+      <div class="side-block">
+        <h4 class="block-title">Duels précédents</h4>
+        <div class="block-content p-0">
+          <!-- Single News Block -->
+          <div class="row youplay-side-news">
+            <div class="col-xs-3 col-md-4">
+              <a href="store-product-1.html" class="angled-img">
+                <div class="img">
+                  <img src="{% static 'assets/images/footerbg.jpg' %}" alt="">
+                </div>
+              </a>
+            </div>
+            <div class="col-xs-9 col-md-8">
+              <h4 class="ellipsis"><a href="store-product-1.html" title="Bloodborne">Bloodborne</a></h4>
+              <span class="price">Victoire</span>
+            </div>
+          </div>
+          <!-- /Single News Block -->
+
+          <!-- Single News Block -->
+          <div class="row youplay-side-news">
+            <div class="col-xs-3 col-md-4">
+              <a href="#!" class="angled-img">
+                <div class="img">
+                  <img src="{% static 'assets/images/footerbg.jpg' %}" alt="">
+                </div>
+              </a>
+            </div>
+            <div class="col-xs-9 col-md-8">
+              <h4 class="ellipsis"><a href="#!" title="Dark Souls II">Dark Souls II</a></h4>
+              <span class="price">Défaite</span>
+            </div>
+          </div>
+          <!-- /Single News Block -->
+
+          <!-- Single News Block -->
+          <div class="row youplay-side-news">
+            <div class="col-xs-3 col-md-4">
+              <a href="#!" class="angled-img">
+                <div class="img">
+                  <img src="{% static 'assets/images/footerbg.jpg' %}" alt="">
+                </div>
+              </a>
+            </div>
+            <div class="col-xs-9 col-md-8">
+              <h4 class="ellipsis"><a href="#!" title="Kingdoms of Amalur">Kingdoms of Amalur</a></h4>
+              <span class="price">Victoire</span>
+            </div>
+          </div>
+          <!-- /Single News Block -->
+
+          <!-- Single News Block -->
+          <div class="row youplay-side-news">
+            <div class="col-xs-3 col-md-4">
+              <a href="#!" class="angled-img">
+                <div class="img">
+                  <img src="{% static 'assets/images/footerbg.jpg' %}" alt="">
+                </div>
+              </a>
+            </div>
+            <div class="col-xs-9 col-md-8">
+              <h4 class="ellipsis"><a href="#!" title="Let's Grind Diablo III">Diablo III</a></h4>
+              <span class="price">Défaite</span>
+            </div>
+          </div>
+          <!-- /Single News Block -->
+        </div>
+      </div>
+      <!-- /Side Popular News -->
+
+    </div>
+    <!-- /Left Side -->
+  </div>
+  {% include 'partials/_footer.html' %}
+</section>
+<!-- /Main Content -->
+
+{% endblock %}

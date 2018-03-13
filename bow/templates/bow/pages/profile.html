@@ -5,6 +5,7 @@
 {% block title %} BlackOrWhite | Profile du joueur {% endblock %}
 
 {% block content %}
+{% csrf_token %}
 <!-- Main Content -->
 <section class="content-wrap">
   <!-- Banner -->
@@ -12,58 +13,64 @@
       <div class="image" style="background-image: url('{% static 'assets/images/profile.jpg' %}')">
       </div>
 
-      <!--<div class="youplay-user-navigation">
-        <div class="container">
-          <ul>
-            <li><a href="{% url 'character' %}">Personnage</a>
-            </li>
-            <li><a href="{% url 'attributes' %}">Attributs</a>
-            </li>
-            <li><a href="{% url 'inventory' %}">Inventaire</span></a>
-            </li>
-          </ul>
-        </div>
-      </div>-->
-
       <div class="info">
         <div>
           <div class="container youplay-user">
             <a href="assets/images/user-photo.jpg" class="angled-img image-popup">
               <div class="img">
-                <img src="{% static 'assets/images/clan-ehome.jpg' %}" alt="">
+                <img src="{% static 'assets/images/' %}{{ profile.character.camp.camp_icon }}" alt="">
+                {% if profile.character.level.id == 1 %}
+                <div class="badge show bg-default">{{ profile.character.level.name }}</div>
+                {% elif profile.character.level.id == 2 %}
+                <div class="badge show bg-primary">{{ profile.character.level.name }}</div>
+                {% elif profile.character.level.id == 3 %}
+                <div class="badge show bg-success">{{ profile.character.level.name }}</div>
+                {% else %}
+                <div class="badge show bg-warning">{{ profile.character.level.name }}</div>
+                {% endif %}
               </div>
               <i class="fa fa-search-plus icon"></i>
             </a>
-            <!--
+            <!-- pas touche
                 -->
+
             <div class="user-data">
               <h2>{{ user.username }}</h2>
-              <div class="location"><i class="fa fa-map-marker"></i> Los Angeles</div>
+              <div class="location">
+                {% if profile.character.camp_id == 1 %}
+                  <h4>Black team #{{ profile.user.id }}</h4>
+                {% else %}
+                  <h4>White team #{{ profile.user.id }}</h4>
+                {% endif %}
+              </div>
               <div class="activity">
                 <div>
-                  <div class="num">69</div>
-                  <div class="title">Combats</div>
+                  <div class="num" style="color: #3498db">{{ profile.character.fight_count }}</div>
+                  <div class="title"><img src="{% static 'assets/images/blade.png' %}" alt="Combats" style="width:20px; height:20px;"> Combats</div>
                 </div>
                 <div>
-                  <div class="num">12</div>
-                  <div class="title">Victoires</div>
+                  <div class="num" style="color: #2ecc71">{{ profile.character.victories }}</div>
+                  <div class="title"><img src="{% static 'assets/images/trophy.png' %}" alt="Victoires" style="width:20px; height:20px;"> Victoires</div>
                 </div>
                 <div>
-                  <div class="num">689</div>
-                  <div class="title">Défaites</div>
+                  <div class="num" style="color: #e74c3c">{{ profile.character.defeat }}</div>
+                  <div class="title"><img src="{% static 'assets/images/loose.png' %}" alt="Défaites" style="width:20px; height:20px;"> Défaites</div>
                 </div>
-                <div>
-                  <div class="num">689</div>
-                  <div class="title">Gold</div>
+                <div style="color: #f1c40f">
+                  <div class="num">{{ profile.character.gold }}</div>
+                  <div class="title"><img src="{% static 'assets/images/gold.png' %}" alt="Or" style="width:20px; height:20px;"> Or</div>
+                </div>
+                <div style="color: #9b59b6">
+                  <div class="num" id="experience">{{ profile.character.experience }}</div>
+                  <div class="title"><img src="{% static 'assets/images/experience.png' %}" alt="Expérience" style="width:20px; height:20px;"> Expérience</div>
                 </div>
               </div>
             </div>
           </div>
-
-          <!--<div class="container mt-20">
-            <a href="#!" class="btn btn-sm btn-default ml-0">Add Friend</a>
-            <a href="#!" class="btn btn-sm btn-default">Private Message</a>
-          </div>-->
+          <div class="container mt-20">
+            <a href="{% url 'opponents' %}" class="btn btn-sm btn-default ml-0">Aller au combat</a>
+            <!--<a href="#!" class="btn btn-sm btn-default">Private Message</a>-->
+          </div>
         </div>
       </div>
     </div>
@@ -76,293 +83,222 @@
           <div role="tabpanel">
             <ul class="nav nav-tabs" role="tablist">
               <li role="presentation" class="active">
-                <a href="#tab-all" aria-controls="tab-all" role="tab" data-toggle="tab" aria-expanded="true">All</a>
+                <a href="#tab-att" aria-controls="tab-att" role="tab" data-toggle="tab" aria-expanded="true">Attributs</a>
               </li>
               <li role="presentation">
-                <a href="#tab-cs" aria-controls="tab-cs" role="tab" data-toggle="tab" aria-expanded="true">CS</a>
-              </li>
-              <li role="presentation">
-                <a href="#tab-dota2" aria-controls="tab-dota2" role="tab" data-toggle="tab" aria-expanded="true">DOTA2</a>
-              </li>
-              <li role="presentation">
-                <a href="#tab-lol" aria-controls="tab-lol" role="tab" data-toggle="tab" aria-expanded="true">LoL</a>
+                <a href="#tab-inv" aria-controls="tab-inv" role="tab" data-toggle="tab" aria-expanded="true">Inventaires</a>
               </li>
             </ul>
             <div class="tab-content">
 
-              <!-- All Matches -->
-              <div role="tabpanel" class="tab-pane active" id="tab-all">
+              <!-- Attributs Matchs -->
+              <div role="tabpanel" class="tab-pane active" id="tab-att">
+                <table style="border-collapse:separate; border-spacing:2em;" class="improve table-hover">
+                   <tr>
+                      <td style="width:90%">
+                        <h4 class="youplay-match-title" data-toggle="tooltip" data-placement="left" title="L'amélioration coûte 30 pièces d'or">Force d'attaque</h4>
+                      </td>
+                      <td >
+                        <div class="pull-right ml-30">
+                          <div class="youplay-hexagon-rating" data-max="100" id="strg"  title="{{ profile.character.strength }} out of 100"><span id="strength-result">{{ profile.character.strength }}</span></div>
+                        </div>
+                      </td>
+                      <td>
+                        <a data-href="{% url 'improve' 1 %}" href="#" class="btn active btn-primary" id="strength" data-toggle="modal" data-target="">Améliorer</a>
+                      </td>
+                   </tr>
+                   <tr>
+                      <td style="width:90%">
+                        <h4 class="youplay-match-title" data-toggle="tooltip" data-placement="left" title="L'amélioration coûte 26 pièces d'or">Défense</h4>
+                      </td>
+                      <td >
+                        <div class="pull-right ml-30">
+                          <div class="youplay-hexagon-rating" data-max="100" id="defe" title="{{ profile.character.defense }} sur 100"><span id="defense-result">{{ profile.character.defense }}</span></div>
+                        </div>
+                      </td>
+                      <td>
+                        <a data-href="{% url 'improve' 2 %}" href="#" class="btn active btn-primary" id="defense" data-toggle="modal" data-target="">Améliorer</a>
+                      </td>
+                   </tr>
+                   <tr>
+                      <td style="width:90%">
+                        <h4 class="youplay-match-title" data-toggle="tooltip" data-placement="left" title="L'amélioration coûte 10 pièces d'or">Vitesse d'attaque</h4>
+                      </td>
+                      <td >
+                        <div class="pull-right ml-30">
+                          <div class="youplay-hexagon-rating" data-max="100" id="spee" title="{{ profile.character.speed }} sur 100"><span id="speed-result">{{ profile.character.speed }}</span></div>
+                        </div>
+                      </td>
+                      <td>
+                        <a data-href="{% url 'improve' 3 %}" href="#" class="btn active btn-primary" id="speed" data-toggle="modal" data-target="">Améliorer</a>
+                      </td>
+                   </tr>
+
+                   <tr>
+                      <td style="width:90%">
+                        <h4 class="youplay-match-title" data-toggle="tooltip" data-placement="left" title="L'amélioration coûte 35 pièces d'or">Agilité</h4>
+                      </td>
+                      <td >
+                        <div class="pull-right ml-30">
+                          <div class="youplay-hexagon-rating" data-max="100" id="agili" title="{{ profile.character.agility }} sur 100"><span id="agility-result">{{ profile.character.agility }}</span></div>
+                        </div>
+                      </td>
+                      <td>
+                        <a data-href="{% url 'improve' 4 %}" href="#" class="btn active btn-primary" id="agility" data-toggle="modal" data-target="">Améliorer</a>
+                      </td>
+                   </tr>
+                </table>
+              </div>
+              <!-- /Attributs Matchs -->
+
+              <!-- Inventaires Matchs -->
+              <div role="tabpanel" class="tab-pane" id="tab-inv">
                 <div class="youplay-matches-list">
-                  <a class="youplay-single-match" href="#">
 
-                    <div class="pull-left">
-                      <div class="angled-img">
-                        <div class="img">
-                          <img src="assets/images/clan-navi.jpg" alt="NAVI">
+                  <!-- Accordion -->
+                  <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                    {% for  cat in cats %}
+                    <div class="panel panel-default">
+                      <div class="panel-heading" role="tab" id="{{cat.id}}">
+                        <h4 class="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne{{cat.id}}" aria-expanded="true" aria-controls="collapseOne{{cat.id}}">
+                                        {{ cat.name }} <span class="icon-plus"></span></a>
+                        </h4>
+                      </div>
+                      <div id="collapseOne{{cat.id}}" class="panel-collapse collapse" role="tabpanel"><!--aria-labelledby="headingOne{{cat.id}}"-->
+                        <div class="panel-body">
+                          <table style="width:100%; padding: 2px;">
+                            {% for item in items %}
+                            {% if item.item.category_id == cat.id %}
+                            <tbody>
+                              <tr>
+                                <td class="center-text" style="width:150px; padding:3px 3px 0 0;">
+                                  {% if cat.id == 1 %}
+                                  <img src="{% static 'assets/images/weapons/' %}{{ item.item.item_icon }}" alt="Arme">
+                                  {% elif cat.id == 2 %}
+                                  <img src="{% static 'assets/images/shields/' %}{{ item.item.item_icon }}" alt="Bouclier">
+                                  {% else %}
+                                  <!--Voir après si on gère les armures (en fonction du temps)-->
+                                  <!--<img src="{% static 'assets/images/shields/' %}{{ item.item.item_icon }}" alt="Armure">-->
+                                  {% endif %}
+                                </td>
+                                <td>
+                                  <strong style="color: #e67e22">{{ item.item.name }}</strong>
+                                  <br>
+                                  {% if cat.id == 1 %}
+                                  <br>Dégâts par les armes: {{ item.item.damages }}
+                                  <br>
+                                  <br>Force: {{ item.item.strength }}
+                                  {% else %}
+                                  <br>Energie vitale: {{ item.item.vital_energy }}
+                                  <br>
+                                  <br>Défense: {{ item.item.defense }}
+                                  {% endif %}
+                                  <br>Prérequis: {{ item.item.level.name }}
+                                </td>
+                                {% if item.is_active == 1 %}
+                                <td class="center-text"><span class="yellow bold pull-right" style="color: yellow">activé</span></td>
+                                {% else %}
+                                <td class="center-text"><a data-href="" href="#" class="pull-right btn active btn-info" id="item-{{ item.id }}">Activer cette arme</a></td>
+                                {% endif %}
+                             </tr>
+                          </tbody>
+                          {% endif %}
+                          {% endfor %}
+                        </table>
                         </div>
                       </div>
-                      <h5 class="text-center">NAVI</h5>
                     </div>
-
-                    <div class="pull-left ml-30">
-                      <div class="angled-img">
-                        <div class="img">
-                          <img src="assets/images/clan-ehome.jpg" alt="EHOME">
-                        </div>
-                      </div>
-                      <h5 class="text-center">EHOME</h5>
-                    </div>
-
-                    <div class="pull-left ml-30">
-                      <h3 class="youplay-match-title">Game Show GEC</h3>
-                      <div class="date">27th March 2016, 5:30 pm</div>
-                    </div>
-
-                    <div class="label youplay-match-count">Upcoming</div>
-
-                    <div class="clearfix"></div>
-                  </a>
-
-                  <a class="youplay-single-match" href="match.html">
-
-                    <div class="pull-left">
-                      <div class="angled-img">
-                        <div class="img">
-                          <img src="assets/images/clan-youplay.jpg" alt="Youplay">
-                        </div>
-                      </div>
-                      <h5 class="text-center">Youplay</h5>
-                    </div>
-
-                    <div class="pull-left ml-30">
-                      <div class="angled-img">
-                        <div class="img">
-                          <img src="assets/images/clan-team-secret.jpg" alt="Team Secret">
-                        </div>
-                      </div>
-                      <h5 class="text-center">Team Secret</h5>
-                    </div>
-
-                    <div class="pull-left ml-30">
-                      <h3 class="youplay-match-title">The International 2015</h3>
-                      <div class="date">17th February 2016, 6:00 am</div>
-                    </div>
-
-                    <div class="label youplay-match-count">10 : 7</div>
-
-                    <div class="clearfix"></div>
-                  </a>
-
-                  <a class="youplay-single-match" href="match-2.html">
-
-                    <div class="pull-left">
-                      <div class="angled-img">
-                        <div class="img">
-                          <img src="assets/images/clan-navi.jpg" alt="NAVI">
-                        </div>
-                      </div>
-                      <h5 class="text-center">NAVI</h5>
-                    </div>
-
-                    <div class="pull-left ml-30">
-                      <div class="angled-img">
-                        <div class="img">
-                          <img src="assets/images/clan-fnatic.jpg" alt="fnatic">
-                        </div>
-                      </div>
-                      <h5 class="text-center">fnatic</h5>
-                    </div>
-
-                    <div class="pull-left ml-30">
-                      <h3 class="youplay-match-title">Red Dot Invitational</h3>
-                      <div class="date">10th February 2016, 10:30 am</div>
-                    </div>
-
-                    <div class="label youplay-match-count">22 : 28</div>
-
-                    <div class="clearfix"></div>
-                  </a>
-
-                  <a class="youplay-single-match" href="#">
-
-                    <div class="pull-left">
-                      <div class="angled-img">
-                        <div class="img">
-                          <img src="assets/images/clan-skt-t1.jpg" alt="SKT T1">
-                        </div>
-                      </div>
-                      <h5 class="text-center">SKT T1</h5>
-                    </div>
-
-                    <div class="pull-left ml-30">
-                      <div class="angled-img">
-                        <div class="img">
-                          <img src="assets/images/clan-virtus-pro.jpg" alt="Virtus PRO">
-                        </div>
-                      </div>
-                      <h5 class="text-center">Virtus PRO</h5>
-                    </div>
-
-                    <div class="pull-left ml-30">
-                      <h3 class="youplay-match-title">San Jose</h3>
-                      <div class="date">1st December 2015, 4:30 pm</div>
-                    </div>
-
-                    <div class="label youplay-match-count">13 : 13</div>
-
-                    <div class="clearfix"></div>
-                  </a>
+                    {% endfor %}
+                  </div>
+                  <!-- /Accordion -->
                 </div>
               </div>
-              <!-- /All Matches -->
-
-              <!-- CS Matches -->
-              <div role="tabpanel" class="tab-pane" id="tab-cs">
-                <div class="youplay-matches-list">
-                  <a class="youplay-single-match" href="match-2.html">
-
-                    <div class="pull-left">
-                      <div class="angled-img">
-                        <div class="img">
-                          <img src="assets/images/clan-navi.jpg" alt="NAVI">
-                        </div>
-                      </div>
-                      <h5 class="text-center">NAVI</h5>
-                    </div>
-
-                    <div class="pull-left ml-30">
-                      <div class="angled-img">
-                        <div class="img">
-                          <img src="assets/images/clan-fnatic.jpg" alt="fnatic">
-                        </div>
-                      </div>
-                      <h5 class="text-center">fnatic</h5>
-                    </div>
-
-                    <div class="pull-left ml-30">
-                      <h3 class="youplay-match-title">Red Dot Invitational</h3>
-                      <div class="date">10th February 2016, 10:30 am</div>
-                    </div>
-
-                    <div class="label youplay-match-count">22 : 28</div>
-
-                    <div class="clearfix"></div>
-                  </a>
-                </div>
-              </div>
-              <!-- /CS Matches -->
-
-              <!-- DOTA2 Matches -->
-              <div role="tabpanel" class="tab-pane" id="tab-dota2">
-                <div class="youplay-matches-list">
-                  <a class="youplay-single-match" href="#">
-
-                    <div class="pull-left">
-                      <div class="angled-img">
-                        <div class="img">
-                          <img src="assets/images/clan-navi.jpg" alt="NAVI">
-                        </div>
-                      </div>
-                      <h5 class="text-center">NAVI</h5>
-                    </div>
-
-                    <div class="pull-left ml-30">
-                      <div class="angled-img">
-                        <div class="img">
-                          <img src="assets/images/clan-ehome.jpg" alt="EHOME">
-                        </div>
-                      </div>
-                      <h5 class="text-center">EHOME</h5>
-                    </div>
-
-                    <div class="pull-left ml-30">
-                      <h3 class="youplay-match-title">Game Show GEC</h3>
-                      <div class="date">27th March 2016, 5:30 pm</div>
-                    </div>
-
-                    <div class="label youplay-match-count">Upcoming</div>
-
-                    <div class="clearfix"></div>
-                  </a>
-
-                  <a class="youplay-single-match" href="match.html">
-
-                    <div class="pull-left">
-                      <div class="angled-img">
-                        <div class="img">
-                          <img src="assets/images/clan-youplay.jpg" alt="Youplay">
-                        </div>
-                      </div>
-                      <h5 class="text-center">Youplay</h5>
-                    </div>
-
-                    <div class="pull-left ml-30">
-                      <div class="angled-img">
-                        <div class="img">
-                          <img src="assets/images/clan-team-secret.jpg" alt="Team Secret">
-                        </div>
-                      </div>
-                      <h5 class="text-center">Team Secret</h5>
-                    </div>
-
-                    <div class="pull-left ml-30">
-                      <h3 class="youplay-match-title">The International 2015</h3>
-                      <div class="date">17th February 2016, 6:00 am</div>
-                    </div>
-
-                    <div class="label youplay-match-count">10 : 7</div>
-
-                    <div class="clearfix"></div>
-                  </a>
-                </div>
-              </div>
-              <!-- /DOTA2 Matches -->
-
-              <!-- LoL Matches -->
-              <div role="tabpanel" class="tab-pane" id="tab-lol">
-                <div class="youplay-matches-list">
-                  <a class="youplay-single-match" href="#">
-
-                    <div class="pull-left">
-                      <div class="angled-img">
-                        <div class="img">
-                          <img src="assets/images/clan-skt-t1.jpg" alt="SKT T1">
-                        </div>
-                      </div>
-                      <h5 class="text-center">SKT T1</h5>
-                    </div>
-
-                    <div class="pull-left ml-30">
-                      <div class="angled-img">
-                        <div class="img">
-                          <img src="assets/images/clan-virtus-pro.jpg" alt="Virtus PRO">
-                        </div>
-                      </div>
-                      <h5 class="text-center">Virtus PRO</h5>
-                    </div>
-
-                    <div class="pull-left ml-30">
-                      <h3 class="youplay-match-title">San Jose</h3>
-                      <div class="date">1st December 2015, 4:30 pm</div>
-                    </div>
-
-                    <div class="label youplay-match-count">13 : 13</div>
-
-                    <div class="clearfix"></div>
-                  </a>
-                </div>
-              </div>
-              <!-- /LoL Matches -->
-
+              <!-- /Inventaires Matches -->
             </div>
           </div>
-
         </div>
       </div>
     </div>
 
+      <!-- Modal -->
+      <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
+              </button>
+              <h4 class="modal-title" id="myModalLabel">Vous n'avez pas assez d'expérience pour vous améliorer!</h4>
+            </div>
+            <div class="modal-body">Combattez encore et encore pour acquérir de l'expérience!
+              <!--Un peu spécial-->
+              {% for i in "x"|ljust:"7" %}
+              <img src="{% static 'assets/images/experience.png' %}" alt="Or" style="width:20px; height:20px;">
+              {% endfor %}
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Ok</button>
+              <!--<button type="button" class="btn btn-primary">Save changes</button>-->
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /Modals -->
   {% include 'partials/_footer.html' %}
 </section>
 <!-- /Main Content -->
-
+{% block javascript %}
+<script src="{% static 'js/allow_post_ajax.js' %}"></script>
+    <script type="text/javascript">
+    $(document).ready(function() {
+      var strength = parseInt($('#strength-result').html());
+      var defense = parseInt($('#defense-result').html());
+      var speed = parseInt($('#speed-result').html());
+      var agility = parseInt($('#agility-result').html());
+      //Update user attributes
+      $(".improve a").click(function(event) {
+        //Test quantity of Gold
+        if(parseInt($('#experience').html()) < 10){
+          $(this).attr('data-target','#myModal');
+          event.preventDefault();
+        } else {
+          var this_ = $(this);
+          var improve_url = this_.attr("data-href");
+          var id_element = event.target.id;
+          $.ajax({
+            method: "POST",
+            url: improve_url,
+            success: function(data) {
+              if(id_element === "strength"){
+                $('#strength-result').html(parseInt(data));
+                $('#experience').html( parseInt($('#experience').html()) - 10)
+                $('#strg').attr('title', data + " sur 100");
+              }
+              else if(id_element === "defense"){
+                $('#defense-result').html(parseInt(data));
+                $('#experience').html( parseInt($('#experience').html()) - 10)
+                $('#defe').attr('title', data + " sur 100");
+              }
+              else if(id_element === "speed"){
+                $('#speed-result').html(parseInt(data));
+                $('#experience').html( parseInt($('#experience').html()) - 10)
+                $('#spee').attr('title', data + " sur 100");
+              }
+              else if(id_element === "agility"){
+                $('#agility-result').html(parseInt(data));
+                $('#experience').html( parseInt($('#experience').html()) - 10)
+                $('#agili').attr('title', data + " sur 100");
+              }
+            },
+            error: function(error) {
+              console.log("erreur",error);
+            }
+          });
+          event.preventDefault();
+         }
+        });
+    });
+    </script>
+{% endblock javascript %}
 {% endblock %}

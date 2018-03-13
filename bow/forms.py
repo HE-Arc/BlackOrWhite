@@ -25,6 +25,7 @@ class SigninForm(forms.Form):
 #Register form
 class RegisterForm(UserCreationForm):
     email = forms.EmailField(required=True)
+    username = forms.CharField(required=True)
     password1 = forms.CharField(widget=forms.PasswordInput)
     password2 = forms.CharField(widget=forms.PasswordInput)
 
@@ -34,14 +35,13 @@ class RegisterForm(UserCreationForm):
         #Liste des champs que l'on veut pour le formulaire d'inscription
         fields = ('username', 'email', 'password1', 'password2')
 
-    def clean(self):
+    def clean_email(self):
         password1 = self.cleaned_data.get('password1')
         password2 = self.cleaned_data.get('password2')
-        #email = self.cleaned_data.get('email')
-
+        email = self.cleaned_data.get('email')
         if not password1 == password2:
             raise forms.ValidationError("Les deux mots de passe ne matchent pas.")
-        '''email_ = User.objects.filter(email=email)
-        if email_.exists():
-            raise forms.ValidationError("Cet email existe déjà")
-        return email'''
+        count = User.objects.filter(email=email).count()
+        if email and count > 0:
+            raise forms.ValidationError(u"Cet email existe déjà")
+        return email

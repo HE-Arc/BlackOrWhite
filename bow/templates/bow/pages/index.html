@@ -6,7 +6,7 @@
 <h2 class="h1"><strong>BlackOrWhite</strong></h2>
 <h3>Choisissez votre camp</h3><br>
 {% if user.is_authenticated %}
-  <a href="{% url 'home' %}" class="btn active btn-lg btn-danger">Que la partie commence!</a>
+  <a href="{% url 'opponents' %}" class="btn active btn-lg btn-danger">Que la partie commence!</a>
 {% else %}
   <a href="{% url 'login' %}" class="btn active btn-lg btn-danger">Connectez-vous et Jouez!</a>
 {% endif %}

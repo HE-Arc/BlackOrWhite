@@ -21,15 +21,9 @@
               <a class="btn btn-default" href="#!" title="Share on Twitter"><i class="fa fa-twitter"></i></a>
               <a class="btn btn-default" href="#!" title="Share on Google Plus"><i class="fa fa-google-plus"></i></a>
             </div>
-
-            <form method="post" novalidate>
+            <!--débrouille-->
+            <form action="../inscription/{{ request.path | last }}" method="POST">
               {% csrf_token %}
-              {{ form }}
-              <button type="submit">Submit</button>
-            </form>
-
-
-            <form action="" method="POST">
               <div class="youplay-input">
                 <input type="text" name="username" placeholder="Nom d'utilisateur">
               </div>
@@ -42,7 +36,7 @@
               <div class="youplay-input">
                 <input type="password" name="password2" placeholder="Confirmez le mot de passe">
               </div>
-              <button class="btn btn-default db" type="submit">S'inscrire</button>
+              <button class="btn btn-default db">S'inscrire</button>
             </form><br>
             <h5>Déjà inscrit?</h5>
             <div class="btn-group social-list dib">

@@ -14,8 +14,8 @@ def forwards_func(apps, schema_editor):
     Camp = apps.get_model("bow", "Camp")
     db_alias = schema_editor.connection.alias
     Camp.objects.using(db_alias).bulk_create([
-        Camp(name='Black', description='Ce sont les chevaliers noirs.'),
-        Camp(name='White', description='Ce sont les chevaliers blancs.'),
+        Camp(name='Black', description='Ce sont les chevaliers noirs.', camp_icon='black_camp.jpg'),
+        Camp(name='White', description='Ce sont les chevaliers blancs.', camp_icon='white_camp.jpg'),
     ])
 
     Level = apps.get_model("bow", "Level")
@@ -30,9 +30,31 @@ def forwards_func(apps, schema_editor):
     Characters = apps.get_model("bow", "Characters")
     db_alias = schema_editor.connection.alias
     Characters.objects.using(db_alias).bulk_create([
-        #Just basic opponents in case that the player is too weak and can't fight anyone
-        Characters(name="L'apprenti chevalier noir", strength=5, defense=5, speed=5, agility=5, victories=0, fight_count=0, experience=0, gold=0, camp_id=1, level_id=1),
-        Characters(name="L'apprenti chevalier blanc", strength=5, defense=5, speed=5, agility=5, victories=0, fight_count=0, experience=0, gold=0, camp_id=2, level_id=1),
+        Characters(name="Yori", strength=5, defense=5, speed=5, agility=5, victories=0, defeat=0, fight_count=0, experience=0, gold=0, camp_id=1, level_id=1),
+        Characters(name="Rugal", strength=5, defense=5, speed=5, agility=5, victories=0, defeat=0, fight_count=0, experience=0, gold=0, camp_id=2, level_id=1),
+        Characters(name="MichaelJackson", strength=50, defense=10, speed=50, agility=50, victories=300, defeat=50, fight_count=350, experience=1000, gold=200, camp_id=2, level_id=1),
+    ])
+
+    InventoryCategory = apps.get_model("bow", "Inventory_Category")
+    db_alias = schema_editor.connection.alias
+    InventoryCategory.objects.using(db_alias).bulk_create([
+        InventoryCategory(name='Armes', description='Armes du guerrier.'),
+        InventoryCategory(name='Boucliers', description='Bouclier du guerrier.'),
+        InventoryCategory(name='Armures', description='Armures du guerrier.'),
+    ])
+
+    Item = apps.get_model("bow", "Item")
+    db_alias = schema_editor.connection.alias
+    Item.objects.using(db_alias).bulk_create([
+        Item(name="Destinée", strength=1, damages=5, item_icon="weapon_1.png", category_id=1, level_id=1),
+        Item(name="Ultima", strength=10, damages=25, item_icon="weapon_2.png", cost_gold=50, category_id=1, level_id=2),
+        Item(name="Obilirema", strength=15, damages=50, item_icon="weapon_3.png", cost_gold=100, category_id=1, level_id=3),
+        Item(name="Blade", strength=20, damages=75, item_icon="weapon_4.png", cost_gold=200, category_id=1, level_id=4),
+
+        Item(name="Zordon", vital_energy=200, defense=1, item_icon="shield_1.jpg", category_id=2, level_id=1),
+        Item(name="Barbaria", vital_energy=500, defense=50, item_icon="shield_2.png", cost_gold=50, category_id=2, level_id=2),
+        Item(name="Aegis", vital_energy=1000, defense=100, item_icon="shield_3.png", cost_gold=150, category_id=2, level_id=3),
+        Item(name="Armageddon", vital_energy=1000, defense=100, item_icon="shield_4.png", cost_gold=550, category_id=2, level_id=4),
     ])
 
 def reverse_func(apps, schema_editor):
@@ -53,9 +75,14 @@ def reverse_func(apps, schema_editor):
 
     Characters = apps.get_model("bow", "Characters")
     db_alias = schema_editor.connection.alias
-    Characters.objects.using(db_alias).filter(name="L'apprenti chevalier blanc").delete()
-    Characters.objects.using(db_alias).filter(name="L'apprenti chevalier noir").delete()
+    Characters.objects.using(db_alias).filter(name="Yagami").delete()
+    Characters.objects.using(db_alias).filter(name="Rugal").delete()
 
+    InventoryCategory = apps.get_model("bow", "Inventory_category")
+    db_alias = schema_editor.connection.alias
+    InventoryCategory.objects.using(db_alias).filter(name='Armes').delete()
+    InventoryCategory.objects.using(db_alias).filter(name='Boucliers').delete()
+    InventoryCategory.objects.using(db_alias).filter(name='Armures').delete()
 #------------ Table migration ------------#
 
 class Migration(migrations.Migration):

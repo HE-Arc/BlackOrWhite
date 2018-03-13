@@ -154,28 +154,10 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=50)),
                 ('description', models.TextField()),
+                ('camp_icon', models.TextField(max_length=50)),
             ],
             options={
                 'db_table': 'camp',
-            },
-        ),
-        migrations.CreateModel(
-            name='Characters',
-            fields=[
-                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=50)),
-                ('strength', models.IntegerField()),
-                ('defense', models.IntegerField()),
-                ('speed', models.IntegerField()),
-                ('agility', models.IntegerField()),
-                ('victories', models.IntegerField()),
-                ('fight_count', models.IntegerField()),
-                ('experience', models.IntegerField()),
-                ('gold', models.IntegerField()),
-                ('camp', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='bow.Camp')),
-            ],
-            options={
-                'db_table': 'characters',
             },
         ),
         migrations.CreateModel(
@@ -190,6 +172,27 @@ class Migration(migrations.Migration):
             },
         ),
         migrations.CreateModel(
+            name='Characters',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('name', models.CharField(max_length=50)),
+                ('strength', models.IntegerField()),
+                ('defense', models.IntegerField()),
+                ('speed', models.IntegerField()),
+                ('agility', models.IntegerField()),
+                ('victories', models.IntegerField()),
+                ('defeat', models.IntegerField()),
+                ('fight_count', models.IntegerField()),
+                ('experience', models.IntegerField()),
+                ('gold', models.IntegerField()),
+                ('camp', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='bow.Camp')),
+                ('level', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='bow.Level')),
+            ],
+            options={
+                'db_table': 'characters',
+            },
+        ),
+        migrations.CreateModel(
             name='UserProfile',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
@@ -200,9 +203,47 @@ class Migration(migrations.Migration):
                 'db_table': 'user_profile',
             },
         ),
-        migrations.AddField(
-            model_name='characters',
-            name='level',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='bow.Level'),
+        migrations.CreateModel(
+            name='inventory_category',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('name', models.CharField(max_length=50)),
+                ('description', models.TextField()),
+            ],
+            options={
+                'db_table': 'inventory_category',
+            },
+        ),
+        migrations.CreateModel(
+            name='Item',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('name', models.CharField(max_length=50)),
+                ('vital_energy', models.IntegerField(default=5)),
+                ('strength', models.IntegerField(default=5)),
+                ('defense', models.IntegerField(default=5)),
+                ('damages', models.IntegerField(default=25)),
+                ('item_icon', models.CharField(max_length=50)),
+                ('description', models.TextField()),
+                ('cost_chf', models.DecimalField(max_digits=20, decimal_places=2, default=0.00)),
+                ('cost_gold', models.IntegerField(default=0)),
+                ('category', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='bow.Inventory_Category')),
+                ('level', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='bow.Level')),
+            ],
+            options={
+                'db_table': 'item',
+            },
+        ),
+        migrations.CreateModel(
+            name='CharacterItem',
+            fields=[
+                ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
+                ('is_active', models.IntegerField()),
+                ('character', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='bow.Characters')),
+                ('item', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='bow.Item')),
+            ],
+            options={
+                'db_table': 'characters_item',
+            },
         ),
     ]
