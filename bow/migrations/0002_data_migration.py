@@ -32,7 +32,7 @@ def forwards_func(apps, schema_editor):
     Characters.objects.using(db_alias).bulk_create([
         Characters(name="Yori", strength=5, defense=5, speed=5, agility=5, victories=0, defeat=0, fight_count=0, experience=0, gold=0, camp_id=1, level_id=1),
         Characters(name="Rugal", strength=5, defense=5, speed=5, agility=5, victories=0, defeat=0, fight_count=0, experience=0, gold=0, camp_id=2, level_id=1),
-        Characters(name="MichaelJackson", strength=50, defense=10, speed=50, agility=50, victories=300, defeat=50, fight_count=350, experience=1000, gold=200, camp_id=2, level_id=1),
+        Characters(name="Appen", strength=50, defense=10, speed=50, agility=50, victories=300, defeat=50, fight_count=350, experience=1000, gold=200, camp_id=2, level_id=2),
     ])
 
     InventoryCategory = apps.get_model("bow", "Inventory_Category")
