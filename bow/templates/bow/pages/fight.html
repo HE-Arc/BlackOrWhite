@@ -28,16 +28,13 @@
         <div class="col-md-4 text-center" style="border: 2px solid #000">
           <h2>{{ request.user }}</h2>
           <div class="row text-center">
-            <p>ton contenu</p>
-            <p>ton contenu</p>
-            <p>ton contenu</p>
-            <p>ton contenu</p>
-            <p>ton contenu</p>
-            <p>ton contenu</p>
-            <p>ton contenu</p>
-            <p>ton contenu</p>
-            <p>ton contenu</p>
-            <p>ton contenu</p>
+            <p>Force : {{ request.user.profile.character.strength }}</p>
+            <p>Défense : {{ request.user.profile.character.defense }}</p>
+            <p>Vitesse : {{ request.user.profile.character.speed }}</p>
+            <p>Agilité : {{ request.user.profile.character.agility }}</p>
+            <br>
+            <p><img src="{% static 'assets/images/trophy.png' %}" alt="Combats" style="width:20px; height:20px;"> Taux de victoires : {{ request.user.profile.character.victories }} / {{ request.user.profile.character.fight_count }}</p>
+            <br>
           </div>
         </div>
         <div class="col-md-4 text-center">
@@ -45,36 +42,33 @@
             <img src="{% static 'assets/images/vs.png' %}" alt="Versus" style="width: 110px; height: 110px;">
           </div>
           <div class="row" style="margin-top: 200px;">
-            <button type="button" class="btn active btn-default" data-dismiss="modal">Que le massacre commence</button><br><br>
+            <button id="btn_fight" type="button" class="btn active btn-default" data-dismiss="modal">Que le massacre commence</button><br><br>
             <a href="{% url 'opponents' %}" class="btn btn-default">Chercher un autre adversaire</a>
           </div>
         </div>
         <div class="col-md-4" style="border: 2px solid #000; text-align: center;">
-          <h2 style="text-align: right">blablablabla autre joueu</h2>
+          <h2 style="text-align: center">{{ opponent.name }}</h2>
           <div class="row">
-            <p>ton contenu</p>
-            <p>ton contenu</p>
-            <p>ton contenu</p>
-            <p>ton contenu</p>
-            <p>ton contenu</p>
-            <p>ton contenu</p>
-            <p>ton contenu</p>
-            <p>ton contenu</p>
-            <p>ton contenu</p>
-            <p>ton contenu</p>
+            <p>Force : {{ opponent.strength }}</p>
+            <p>Défense : {{ opponent.defense }}</p>
+            <p>Vitesse : {{ opponent.speed }}</p>
+            <p>Agilité : {{ opponent.agility }}</p>
+            <br>
+            <p><img src="{% static 'assets/images/trophy.png' %}" alt="Combats" style="width:20px; height:20px;"> Taux de victoires : {{ opponent.victories }} / {{ opponent.fight_count }}</p>
+            <br>
           </div>
         </div>
       </div>
     </div>
 
     <!-- Modal -->
-    <!--<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span>
             </button>
-            <h4 class="modal-title" id="myModalLabel">Confirmez votre achat!!</h4>
+            <h4 class="modal-title" id="myModalLabel">Résultat du combat...</h4>
           </div>
           <div class="modal-body">
           <p class="message"></p>
@@ -87,13 +81,20 @@
           </div>
         </div>
       </div>
-    </div>-->
+    </div>
     <!-- /Modals -->
     {% include 'partials/_footer.html' %}
   </section>
 
-  {% block javascript %}
-  <script>
-  </script>
-  {% endblock javascript %}
 {% endblock %}
+{% block javascript %}
+<script>
+  $(document).ready(function() {
+     $("#btn_fight").click(function(event) {
+        //TODO
+        $('#myModal').modal('show');
+     });
+   });
+
+</script>
+{% endblock javascript %}

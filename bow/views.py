@@ -76,9 +76,11 @@ def opponents(request):
     opponents_query_set = Characters.objects.filter(camp__name__contains=camp_opponent)
     return render(request, 'bow/pages/opponents.html', {'opponents': opponents_query_set})
 
-#Choose opponent
-'''def opponent(request):
-    return render(request, 'bow/pages/opponents.html')'''
+@login_required
+def fight(request, opponent_id):
+    opponent = Characters.objects.filter(id=opponent_id).first()
+    print(opponent.name)
+    return render(request, 'bow/pages/fight.html', {'opponent': opponent})
 
 #====Display user profile
 @login_required
@@ -145,7 +147,3 @@ def buy(request, id):
             else:
                 return HttpResponse("interdit")
     return render(request)
-
-@login_required
-def fight(request, id):
-    return render(request, 'bow/pages/fight.html')

@@ -13,10 +13,9 @@ urlpatterns = [
     path('profil', views.profile, name='profile'),
     path('profil/improve/<int:attrib>', views.improve, name='improve'),
     #Game
-    #path('combat', views.opponents, name='fight'),
     path('adversaires', views.opponents, name='opponents'),
+    path('combat/<int:opponent_id>', views.fight, name='fight'),
     #Store
     path('boutique', views.store, name='store'),
     path('achat/<int:id>', views.buy, name='buy'),
-    path('combat/<int:id>', views.fight, name='fight'),
 ]
