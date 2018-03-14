@@ -37,7 +37,7 @@
         {% for opponent in opponents %}
 
           <!-- Single Opponent Block -->
-          <a href="{% url 'fight' %}" class="item angled-bg" data-filters="popular">
+          <a href="{% url 'fight' opponent.id %}" class="item angled-bg" data-filters="all">
             <div class="row">
               <div class="col-lg-2 col-md-3 col-xs-4">
                 <div class="angled-img">

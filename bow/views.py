@@ -147,5 +147,5 @@ def buy(request, id):
     return render(request)
 
 @login_required
-def fight(request):
+def fight(request, id):
     return render(request, 'bow/pages/fight.html')

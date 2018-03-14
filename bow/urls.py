@@ -18,5 +18,5 @@ urlpatterns = [
     #Store
     path('boutique', views.store, name='store'),
     path('achat/<int:id>', views.buy, name='buy'),
-    path('combat', views.fight, name='fight'),
+    path('combat/<int:id>', views.fight, name='fight'),
 ]
