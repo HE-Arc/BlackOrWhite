@@ -248,9 +248,11 @@
   {% include 'partials/_footer.html' %}
 </section>
 <!-- /Main Content -->
+
+{% endblock %}
 {% block javascript %}
 <script src="{% static 'js/allow_post_ajax.js' %}"></script>
-    <script type="text/javascript">
+    <script>
     $(document).ready(function() {
       var strength = parseInt($('#strength-result').html());
       var defense = parseInt($('#defense-result').html());
@@ -301,4 +303,3 @@
     });
     </script>
 {% endblock javascript %}
-{% endblock %}
