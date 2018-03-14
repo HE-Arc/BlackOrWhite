@@ -18,6 +18,9 @@
           <div class="container">
             <h1>Boutique bow</h1>
           </div>
+          <div class="container mt-20">
+            <a href="{% url 'opponents' %}" class="btn btn-sm btn-default ml-0">Aller au combat</a>
+          </div>
         </div>
       </div>
     </div>
@@ -93,7 +96,7 @@
           {% if item.level_id > character.level_id %}
           <a class="angled-bg" data-toggle="tooltip" data-placement="left" title="Atteignez le niveau {{ item.level.name }} pour obtenir {{ item.name }}">
           {% else %}
-          <a data-href="{% url 'buy' item.id %}" href="#" data-gold="{{ character.gold }}" data-price="{{ item.cost_gold }}" class="angled-bg" data-toggle="modal" data-target="#myModal">
+          <a data-href="{% url 'buy' item.id %}" href="#" data-cat="{{ item.category_id }}" data-image="{{ item.item_icon }}" class="angled-bg" data-gold="{{ character.gold }}" data-price="{{ item.cost_gold }}" data-toggle="modal" data-target="#myModal">
           {% endif %}
             <div class="row">
               <div class="col-md-3 col-xs-4">
@@ -164,58 +167,57 @@
     <!-- /Modals -->
     {% include 'partials/_footer.html' %}
   </section>
-
-  {% block javascript %}
-  <script src="{% static 'js/allow_post_ajax.js' %}"></script>
-      <script type="text/javascript">
-      $(document).ready(function() {
-         //Update user attributes
-         $("a").click(function(event) {
-            var this_ = $(this);
-            //Récupération valeur(url) de l'attribut data-ref du lien cliqué
-            var buy_url = this_.attr("data-href");
-            //On passe l'url du lien à l'attribut data-ref du modal
-            if(parseInt(this_.attr("data-gold")) >= parseInt(this_.attr("data-price"))){
-              //Si on a assez d'or on affiche le message correspondant
-              $("#myModalLabel").html("Confirmez votre achat!!");
-              $('.message').html("Vous êtes sur le point d'effectuer un achat sur boutique bow. Confirmez vous votre achat?");
-              if(parseInt(this_.attr("data-cat")) === 1) {
-                $('.text-center').html("<img src='/static/assets/images/weapons/" + this_.attr('data-image') +"' alt='"+this_.attr('data-image')+"' style='width: 100px; height: 100px;'>");
-              }
-              if(parseInt(this_.attr("data-cat")) === 2) {
-                $('.text-center').html("<img src='/static/assets/images/shields/" + this_.attr('data-image') +"' alt='"+this_.attr('data-image')+"' style='width: 100px; height: 100px;'>");
-              }
-              document.getElementById("buy-link").style.display = "inline";
-              $('#myModal').show().attr('data-href', buy_url);
-            } else if(parseInt(this_.attr("data-gold")) < parseInt(this_.attr("data-price"))){
-              //Sinon on change le message du modal
-              $("#myModalLabel").html("Attention!!");
-              $('.message').html("Désolé! Vous ne disposez pas d'assez d'or pour effectuer cette opération.");
-              document.getElementById("buy-link").style.display = "none";
-              $('.text-center').html("");
-            }
-        });
-
-        //Gestion de la validation (envoie de la requête ajax)
-        $("#buy-link").click(function(event) {
-          //On récupère l'url
-          var buy_url = $('#myModal').attr('data-href');
-          //Fermeture du modal après validation
-          $("#myModal").modal("hide");
-          $.ajax({
-            method: "POST",
-            url: buy_url,
-            success: function(data) {
-              if(data === "interdit")
-                alert("Vous possédez déjà cet item");
-              console.log(data);
-            },
-            error: function(error) {
-              console.log("erreur",error);
-            }
-         });
-        });
-      });
-      </script>
-  {% endblock javascript %}
 {% endblock %}
+{% block javascript %}
+<script src="{% static 'js/allow_post_ajax.js' %}"></script>
+    <script>
+    $(document).ready(function() {
+       //Update user attributes
+       $("a").click(function(event) {
+          var this_ = $(this);
+          //Récupération valeur(url) de l'attribut data-ref du lien cliqué
+          var buy_url = this_.attr("data-href");
+          //On passe l'url du lien à l'attribut data-ref du modal
+          if(parseInt(this_.attr("data-gold")) >= parseInt(this_.attr("data-price"))){
+            //Si on a assez d'or on affiche le message correspondant
+            $("#myModalLabel").html("Confirmez votre achat!!");
+            $('.message').html("Vous êtes sur le point d'effectuer un achat sur boutique bow. Confirmez vous votre achat?");
+            if(parseInt(this_.attr("data-cat")) === 1) {
+              $('.text-center').html("<img src='/static/assets/images/weapons/" + this_.attr('data-image') +"' alt='"+this_.attr('data-image')+"' style='width: 100px; height: 100px;'>");
+            }
+            else if(parseInt(this_.attr("data-cat")) === 2) {
+              $('.text-center').html("<img src='/static/assets/images/shields/" + this_.attr('data-image') +"' alt='"+this_.attr('data-image')+"' style='width: 100px; height: 100px;'>");
+            }
+            document.getElementById("buy-link").style.display = "inline";
+            $('#myModal').show().attr('data-href', buy_url);
+          } else if(parseInt(this_.attr("data-gold")) < parseInt(this_.attr("data-price"))){
+            //Sinon on change le message du modal
+            $("#myModalLabel").html("Attention!!");
+            $('.message').html("Désolé! Vous ne disposez pas d'assez d'or pour effectuer cette opération.");
+            document.getElementById("buy-link").style.display = "none";
+            $('.text-center').html("");
+          }
+      });
+
+      //Gestion de la validation (envoie de la requête ajax)
+      $("#buy-link").click(function(event) {
+        //On récupère l'url
+        var buy_url = $('#myModal').attr('data-href');
+        //Fermeture du modal après validation
+        $("#myModal").modal("hide");
+        $.ajax({
+          method: "POST",
+          url: buy_url,
+          success: function(data) {
+            if(data === "interdit")
+              alert("Vous possédez déjà cet item");
+            console.log(data);
+          },
+          error: function(error) {
+            console.log("erreur",error);
+          }
+       });
+      });
+    });
+    </script>
+{% endblock javascript %}
