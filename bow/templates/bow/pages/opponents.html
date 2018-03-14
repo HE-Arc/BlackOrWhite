@@ -77,51 +77,6 @@
           </a>
 
         {% endfor %}
-
-        {% for opponent in opponents %}
-
-          <!-- Single Opponent Block -->
-          <a href="{% url 'fight' %}" class="item angled-bg" data-filters="free">
-            <div class="row">
-              <div class="col-lg-2 col-md-3 col-xs-4">
-                <div class="angled-img">
-                  <div class="img">
-                    <img src="{% static 'assets/images/' %}{{ opponent.camp.camp_icon }}" alt="">
-                      {% if opponent.level.id == 1 %}
-                        <div class="badge show bg-default">{{ opponent.level.name }}</div>
-                      {% elif opponent.level.id == 2 %}
-                        <div class="badge show bg-primary">{{ opponent.level.name }}</div>
-                      {% elif opponent.level.id == 3 %}
-                        <div class="badge show bg-success">{{ opponent.level.name }}</div>
-                      {% else %}
-                        <div class="badge show bg-warning">{{ opponent.level.name }}</div>
-                      {% endif %}
-                  </div>
-                </div>
-              </div>
-              <div class="col-lg-10 col-md-9 col-xs-8">
-                <div class="row">
-                  <div class="col-xs-6 col-md-9">
-                    <h4>{{ opponent.name }}</h4>
-                    <div class="rating">
-                      <span>Force: {{ opponent.strength }}</span>&nbsp;&nbsp;&nbsp;
-                      <span>Défense: {{ opponent.defense }}</span>&nbsp;&nbsp;&nbsp;
-                      <span>Vitesse: {{ opponent.speed }}</span>&nbsp;&nbsp;&nbsp;
-                      <span>Agilité: {{ opponent.agility }}</span>&nbsp;&nbsp;&nbsp;
-                      <span>Expérience: {{ opponent.experience }}</span>&nbsp;&nbsp;&nbsp;
-                    </div>
-                  </div>
-                  <div class="col-xs-6 col-md-3 align-right">
-                    <div class="price">
-                      20%
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </a>
-
-        {% endfor %}
       </div>
 
     </div>
