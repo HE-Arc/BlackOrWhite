@@ -6,6 +6,9 @@ from django.db.models import F
 from .forms import RegisterForm, SigninForm
 from .models import Characters, UserProfile, Camp, InventoryCategory, Item, CharactersItem
 
+from math import gcd
+from random import randint
+
 #Fist page
 def index(request):
     return render(request, 'bow/pages/index.html', {'request': request})
@@ -79,10 +82,92 @@ def opponents(request):
 @login_required
 def fight(request, opponent_id):
     opponent = Characters.objects.filter(id=opponent_id).first()
-    print(opponent.name)
+    #print(opponent.name)
     return render(request, 'bow/pages/fight.html', {'opponent': opponent})
 
+@login_required
+def fight_opponent(request, opponent_id):
+    response = None
+
+    # Get back characters
+    pv_player1 = 100
+    player1 = request.user.profile.character
+
+    pv_player2 = 100
+    player2 = Characters.objects.filter(id=opponent_id).first()
+
+    # Calcul player tick in f(speed)
+    ppmc = player1.speed * player2.speed / gcd(player1.speed, player2.speed) # Calcul least common multiple
+
+    tick_player1 = int(ppmc / player1.speed) # Exemple   10/5 = 2  => so every 2 tick
+    tick_player2 = int(ppmc / player2.speed) #           10/10 = 1 => so every tick
+
+    # To logs fight actions
+    log_fight = []
+
+    # ---Process the fight----
+    #TODO add weapons and shields, and externalize in func in a controller
+    counter = 0
+    while pv_player1 > 0 and pv_player2 > 0:
+        if counter % tick_player1 is 0:
+            dodge_rate = ((player2.agility/player1.agility) * 100) / 2 % 101        # Exemple   10/100 * 100 / 2 % 101 = 10% AND 100/10 * 100 / 2 % 101 = 100%
+            rnd_dodge = randint(1, 100)
+
+            print("1", dodge_rate, rnd_dodge)
+
+            text = player1.name+" a attaqué "+player2.name
+            if dodge_rate > rnd_dodge:  # dodge effective
+                text += " mais il a esquivé"
+            else:
+                damages_player2 = player1.strength * 2 / player2.defense
+                pv_player2 -= damages_player2
+                text += " et a enlevé "+str(damages_player2)+" PV. Il lui reste: "+str(pv_player2)
+
+            log_fight.append(text)
+        if counter % tick_player2 is 0:
+            dodge_rate = ((player1.agility / player2.agility) * 100) / 2 % 101
+            rnd_dodge = randint(1, 100)
+
+            print("2", dodge_rate, rnd_dodge)
+
+            text = player2.name+" a attaqué "+player1.name
+            if dodge_rate > rnd_dodge:
+                text += " mais il a esquivé"
+            else:
+                damages_player1 = player2.strength * 2 / player1.defense
+                pv_player1 -= damages_player1
+                text += " et a enlevé " + str(damages_player1) + " PV. Il lui reste: " + str(pv_player1)
+
+            log_fight.append(text)
+
+        counter += 1
+
+    # ---End fight---
+
+    # Update DB with result
+    db_chararacter = Characters.objects.filter(id=player1.id)
+    db_chararacter.update(fight_count=F('fight_count') + 1)
+
+    # Create return values
+    if pv_player1 > 0:
+        db_chararacter.update(gold=F('gold') + 100, experience=F('experience') + 100, victories=F('victories') + 1)
+        log_fight.append(player2.name+" est K.O.")
+        response = "Vous avez gagné !"
+    elif pv_player2 > 0:
+        db_chararacter.update(gold=F('gold') + 10, experience=F('experience') + 10, victories=F('defeat') + 1)
+        log_fight.append(player1.name+" est K.O.")
+        response = "Vous avez perdu !"
+    else:
+        log_fight.append("Les deux combattans sont K.O.")
+        response = "Égalité !"
+
+    response += '<br><br>' + '<br>'.join(log_fight)
+
+    # Return final response, may be JsonRepsonse
+    return HttpResponse(response)
+
 #====Display user profile
+
 @login_required
 def profile(request):
     #current user
@@ -123,6 +208,7 @@ def improve(request, attrib):
                 response = Characters.objects.filter(name=current_user).first().agility
                 return HttpResponse(response)
     return render(request)
+
 #====Store
 @login_required
 def store(request):

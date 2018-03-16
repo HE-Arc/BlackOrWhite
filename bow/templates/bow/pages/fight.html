@@ -33,7 +33,7 @@
             <p>Vitesse : {{ request.user.profile.character.speed }}</p>
             <p>Agilité : {{ request.user.profile.character.agility }}</p>
             <br>
-            <p><img src="{% static 'assets/images/trophy.png' %}" alt="Combats" style="width:20px; height:20px;"> Taux de victoires : {{ request.user.profile.character.victories }} / {{ request.user.profile.character.fight_count }}</p>
+            <p><img src="{% static 'assets/images/trophy.png' %}" alt="Combats" style="width:20px; height:20px;"><span id="win_rate"> Taux de victoires : {{ request.user.profile.character.victories }} / {{ request.user.profile.character.fight_count }}</span></p>
             <br>
           </div>
         </div>
@@ -70,13 +70,13 @@
             </button>
             <h4 class="modal-title" id="myModalLabel">Résultat du combat...</h4>
           </div>
+
           <div class="modal-body">
-          <p class="message"></p>
-          <p class="text-center"></p>
+            <p class="message text-center"></p>
           </div>
 
           <div class="modal-footer">
-            <button type="button" class="btn active btn-default" data-dismiss="modal">Annuler</button>
+            <button type="button" class="btn active btn-default" data-dismiss="modal">Fermer</button>
             <a data-href="#" class="btn btn-primary" id="buy-link" style="display: none;">Je valide!</a>
           </div>
         </div>
@@ -90,11 +90,33 @@
 {% block javascript %}
 <script>
   $(document).ready(function() {
+     var url_fight_opponent_default = "{% url 'fight_opponent' 0 %}";
+     var url_fight_opponent = url_fight_opponent_default.replace('0', {{ opponent.id }});
+
+     var victories = {{ request.user.profile.character.victories }};  //Get back info from inside and by ajax instead
+     var fight_count = {{ request.user.profile.character.fight_count }}
+
      $("#btn_fight").click(function(event) {
-        //TODO
-        $('#myModal').modal('show');
+        //Use ajax to compute fight and get result
+        $.ajax({
+            method: "POST",
+            url: url_fight_opponent,
+            data : {csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val(),},
+            success: function(data) {
+              var text = data;
+
+              //Change modal content
+              $("#win_rate").text("Taux de victoires : "+ victories + " / "+ fight_count);
+              $(".message").html(text);  //Intercept and modify respons may be insecure. Use Json instead and use css to place
+
+              //Show it manually
+              $('#myModal').modal('show');
+            },
+            error: function(error) {
+              console.log("erreur while fighting!", error);
+            }
+        });
      });
    });
-
 </script>
 {% endblock javascript %}
