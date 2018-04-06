@@ -93,9 +93,6 @@
      var url_fight_opponent_default = "{% url 'fight_opponent' 0 %}";
      var url_fight_opponent = url_fight_opponent_default.replace('0', {{ opponent.id }});
 
-     var victories = {{ request.user.profile.character.victories }};  //Get back info from inside and by ajax instead
-     var fight_count = {{ request.user.profile.character.fight_count }}
-
      $("#btn_fight").click(function(event) {
         //Use ajax to compute fight and get result
         $.ajax({
@@ -103,7 +100,9 @@
             url: url_fight_opponent,
             data : {csrfmiddlewaretoken: $("input[name='csrfmiddlewaretoken']").val(),},
             success: function(data) {
-              var text = data;
+              var text = data["result"];
+              var victories = data["victories"]
+              var fight_count = data["fight_count"]
 
               //Change modal content
               $("#win_rate").text("Taux de victoires : "+ victories + " / "+ fight_count);

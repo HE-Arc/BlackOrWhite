@@ -1,7 +1,7 @@
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.db.models import F
 from .forms import RegisterForm, SigninForm
 from .models import Characters, UserProfile, Camp, InventoryCategory, Item, CharactersItem
@@ -113,7 +113,7 @@ def fight_opponent(request, opponent_id):
             dodge_rate = ((player2.agility/player1.agility) * 100) / 2 % 101        # Exemple   10/100 * 100 / 2 % 101 = 10% AND 100/10 * 100 / 2 % 101 = 100%
             rnd_dodge = randint(1, 100)
 
-            print("1", dodge_rate, rnd_dodge)
+            #print("1", dodge_rate, rnd_dodge)
 
             text = player1.name+" a attaqué "+player2.name
             if dodge_rate > rnd_dodge:  # dodge effective
@@ -128,7 +128,7 @@ def fight_opponent(request, opponent_id):
             dodge_rate = ((player1.agility / player2.agility) * 100) / 2 % 101
             rnd_dodge = randint(1, 100)
 
-            print("2", dodge_rate, rnd_dodge)
+            #print("2", dodge_rate, rnd_dodge)
 
             text = player2.name+" a attaqué "+player1.name
             if dodge_rate > rnd_dodge:
@@ -152,19 +152,20 @@ def fight_opponent(request, opponent_id):
     if pv_player1 > 0:
         db_chararacter.update(gold=F('gold') + 100, experience=F('experience') + 100, victories=F('victories') + 1)
         log_fight.append(player2.name+" est K.O.")
-        response = "Vous avez gagné !"
+        result = "Vous avez gagné !"
     elif pv_player2 > 0:
-        db_chararacter.update(gold=F('gold') + 10, experience=F('experience') + 10, victories=F('defeat') + 1)
+        db_chararacter.update(gold=F('gold') + 10, experience=F('experience') + 10, defeat=F('defeat') + 1)
         log_fight.append(player1.name+" est K.O.")
-        response = "Vous avez perdu !"
+        result = "Vous avez perdu !"
     else:
         log_fight.append("Les deux combattans sont K.O.")
-        response = "Égalité !"
+        result = "Égalité !"
 
-    response += '<br><br>' + '<br>'.join(log_fight)
+    result += '<br><br>' + '<br>'.join(log_fight)
 
-    # Return final response, may be JsonRepsonse
-    return HttpResponse(response)
+    # Return final response
+    response = {"result":result, "victories":db_chararacter.first().victories, "fight_count":db_chararacter.first().fight_count}
+    return JsonResponse(response)
 
 #====Display user profile
 
